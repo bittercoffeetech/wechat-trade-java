@@ -1,14 +1,12 @@
 package tech.bittercoffee.wechat.api.trade;
 
 import static java.util.Objects.nonNull;
-import static org.apache.commons.beanutils.ConstructorUtils.invokeConstructor;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.apache.commons.codec.binary.Hex.encodeHexString;
 import static org.apache.commons.codec.digest.DigestUtils.md5;
 import static org.apache.commons.codec.digest.DigestUtils.sha256;
 import static org.apache.commons.collections.MapUtils.getIntValue;
 import static org.apache.commons.collections.MapUtils.getString;
-import static org.apache.commons.lang3.ArrayUtils.EMPTY_OBJECT_ARRAY;
 import static org.apache.commons.lang3.ArrayUtils.add;
 import static org.apache.commons.lang3.ClassUtils.isAssignable;
 import static org.apache.commons.lang3.RegExUtils.removeAll;
@@ -240,9 +238,9 @@ public final class WechatTradeClient {
 
 		@SuppressWarnings("unchecked")
 		private <M, D> S fromCsvResponse(final WechatTradeCsvResponse<M, D> response, final InputStream input) 
-				throws ReflectiveOperationException, IOException  {
+				throws IOException  {
 			Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
-			TradeCsvResponseModel<?, ?> result = invokeConstructor(response.getResponseType(), EMPTY_OBJECT_ARRAY);
+			TradeCsvResponseModel<?, ?> result = new TradeCsvResponseModel<>();
 		
 			try (LineIterator reader = new LineIterator(new InputStreamReader(input, StandardCharsets.UTF_8))) {
 				AtomicBoolean isSummary = new AtomicBoolean(false);
