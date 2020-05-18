@@ -32,6 +32,15 @@ public final class TradeCreateModel extends TradeSignatureModel {
 	public TradeCreateModel() {
 		this.tradeNo = randomStringGenerator.generate(32);
 	}
+	
+	public static TradeCreateModel newOrder(TradeTypeEnum tradeType, long totalFee, String body) {
+		TradeCreateModel model = new TradeCreateModel();
+		model.tradeType = tradeType;
+		model.totalFee = totalFee;
+		model.body = body;
+		
+		return model;
+	}
 
 	/**
 	 * 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*且在同一个商户号下唯一。
@@ -179,6 +188,91 @@ public final class TradeCreateModel extends TradeSignatureModel {
 	@JsonDeserialize(using = TradeGoodsDetailInfo.GoodsDetailInfoDeserializer.class)
 	private TradeGoodsDetailInfo detail;
 
+	public TradeCreateModel feeType(FeeTypeEnum feeType) {
+		this.feeType = feeType;
+		return this;
+	}
+
+	public TradeCreateModel totalFee(long totalFee) {
+		this.totalFee = totalFee;
+		return this;
+	}
+
+	public TradeCreateModel deviceInfo(String deviceInfo) {
+		this.deviceInfo = deviceInfo;
+		return this;
+	}
+
+	public TradeCreateModel body(String body) {
+		this.body = body;
+		return this;
+	}
+
+	public TradeCreateModel attach(String attach) {
+		this.attach = attach;
+		return this;
+	}
+
+	public TradeCreateModel spbillCreateIp(String spbillCreateIp) {
+		this.spbillCreateIp = spbillCreateIp;
+		return this;
+	}
+
+	public TradeCreateModel timeStart(LocalDateTime timeStart) {
+		this.timeStart = timeStart;
+		return this;
+	}
+
+	public TradeCreateModel timeExpire(LocalDateTime timeExpire) {
+		this.timeExpire = timeExpire;
+		return this;
+	}
+
+	public TradeCreateModel goodsTag(String goodsTag) {
+		this.goodsTag = goodsTag;
+		return this;
+	}
+
+	public TradeCreateModel notifyUrl(String notifyUrl) {
+		this.notifyUrl = notifyUrl;
+		return this;
+	}
+
+	public TradeCreateModel tradeType(TradeTypeEnum tradeType) {
+		this.tradeType = tradeType;
+		return this;
+	}
+
+	public TradeCreateModel productId(String productId) {
+		this.productId = productId;
+		return this;
+	}
+
+	public TradeCreateModel limitPay(String limitPay) {
+		this.limitPay = limitPay;
+		return this;
+	}
+
+	public TradeCreateModel openId(String openId) {
+		this.openId = openId;
+		return this;
+	}
+
+	public TradeCreateModel receipt(Boolean receipt) {
+		this.receipt = receipt;
+		return this;
+	}
+
+	public TradeCreateModel sceneInfo(TradeSceneInfo sceneInfo) {
+		this.sceneInfo = sceneInfo;
+		return this;
+	}
+
+	public TradeCreateModel detail(TradeGoodsDetailInfo detail) {
+		this.detail = detail;
+		return this;
+	}
+
 	public String getTradeNo() {
 		return tradeNo;
 	}
@@ -187,92 +281,40 @@ public final class TradeCreateModel extends TradeSignatureModel {
 		return feeType;
 	}
 
-	public void setFeeType(FeeTypeEnum feeType) {
-		this.feeType = feeType;
-	}
-
 	public long getTotalFee() {
 		return totalFee;
-	}
-
-	public void setTotalFee(long totalFee) {
-		this.totalFee = totalFee;
 	}
 
 	public String getDeviceInfo() {
 		return deviceInfo;
 	}
 
-	public void setDeviceInfo(String deviceInfo) {
-		this.deviceInfo = deviceInfo;
-	}
-
 	public String getBody() {
 		return body;
-	}
-
-	public void setBody(String body) {
-		this.body = body;
-	}
-
-	public TradeGoodsDetailInfo getDetail() {
-		return detail;
-	}
-
-	public void setDetail(TradeGoodsDetailInfo detail) {
-		this.detail = detail;
 	}
 
 	public String getAttach() {
 		return attach;
 	}
 
-	public void setAttach(String attach) {
-		this.attach = attach;
-	}
-
 	public String getSpbillCreateIp() {
 		return spbillCreateIp;
-	}
-
-	public void setSpbillCreateIp(String spbillCreateIp) {
-		this.spbillCreateIp = spbillCreateIp;
 	}
 
 	public LocalDateTime getTimeStart() {
 		return timeStart;
 	}
 
-	public void setTimeStart(LocalDateTime timeStart) {
-		this.timeStart = timeStart;
-	}
-
 	public LocalDateTime getTimeExpire() {
 		return timeExpire;
-	}
-
-	public void setTimeExpire(LocalDateTime timeExpire) {
-		this.timeExpire = timeExpire;
 	}
 
 	public String getGoodsTag() {
 		return goodsTag;
 	}
 
-	public void setGoodsTag(String goodsTag) {
-		this.goodsTag = goodsTag;
-	}
-
 	public String getNotifyUrl() {
 		return notifyUrl;
-	}
-
-	public void setNotifyUrl(String notifyUrl) {
-		this.notifyUrl = notifyUrl;
-	}
-
-	public void setTradeType(TradeTypeEnum tradeType) {
-		this.tradeType = tradeType;
 	}
 
 	public TradeTypeEnum getTradeType() {
@@ -283,40 +325,24 @@ public final class TradeCreateModel extends TradeSignatureModel {
 		return productId;
 	}
 
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-
 	public String getLimitPay() {
 		return limitPay;
-	}
-
-	public void setLimitPay(String limitPay) {
-		this.limitPay = limitPay;
 	}
 
 	public String getOpenId() {
 		return openId;
 	}
 
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
-
 	public Boolean getReceipt() {
 		return receipt;
-	}
-
-	public void setReceipt(Boolean receipt) {
-		this.receipt = receipt;
 	}
 
 	public TradeSceneInfo getSceneInfo() {
 		return sceneInfo;
 	}
 
-	public void setSceneInfo(TradeSceneInfo sceneInfo) {
-		this.sceneInfo = sceneInfo;
+	public TradeGoodsDetailInfo getDetail() {
+		return detail;
 	}
 
 	@Override

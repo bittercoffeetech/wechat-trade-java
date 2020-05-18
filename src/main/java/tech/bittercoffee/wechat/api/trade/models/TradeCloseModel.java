@@ -21,6 +21,20 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 public final class TradeCloseModel extends TradeSignatureModel {
 
 	private static final long serialVersionUID = -198191473007581123L;
+	
+	public static TradeCloseModel withTradeNo(String tradeNo) {
+		TradeCloseModel model = new TradeCloseModel();
+		model.tradeNo = tradeNo;
+		
+		return model;
+	}
+	
+	public static TradeCloseModel withTransactionId(String transactionId) {
+		TradeCloseModel model = new TradeCloseModel();
+		model.transactionId = transactionId;
+		
+		return model;
+	}
 
 	/**
 	 * 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。
@@ -35,21 +49,13 @@ public final class TradeCloseModel extends TradeSignatureModel {
 	@JsonProperty("transaction_id")
 	@JacksonXmlCData
 	private String transactionId;
-
+	
 	public String getTradeNo() {
 		return tradeNo;
 	}
 
-	public void setTradeNo(String tradeNo) {
-		this.tradeNo = tradeNo;
-	}
-
 	public String getTransactionId() {
 		return transactionId;
-	}
-
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
 	}
 
 	@Override

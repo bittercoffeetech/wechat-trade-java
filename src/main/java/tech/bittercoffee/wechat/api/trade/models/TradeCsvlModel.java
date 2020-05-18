@@ -35,29 +35,21 @@ public abstract class TradeCsvlModel extends TradeSignatureModel {
 	@JacksonXmlCData
 	@JsonSerialize(using = CompactLocalDateSerializer.class)
 	@JsonDeserialize(using = CompactLocalDateDeserializer.class)
-	private LocalDate billDate;
+	protected LocalDate billDate;
 
 	/**
 	 * 压缩账单
 	 */
 	@JsonProperty("tar_type")
 	@JacksonXmlCData
-	private TarTypeEnum tarType;
+	protected TarTypeEnum tarType;
 
 	public LocalDate getBillDate() {
 		return billDate;
 	}
 
-	public void setBillDate(LocalDate billDate) {
-		this.billDate = billDate;
-	}
-
 	public TarTypeEnum getTarType() {
 		return tarType;
-	}
-
-	public void setTarType(TarTypeEnum tarType) {
-		this.tarType = tarType;
 	}
 
 	@Override

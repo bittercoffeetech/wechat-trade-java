@@ -2,7 +2,6 @@ package tech.bittercoffee.wechat.api.trade.models;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.text.RandomStringGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.RefundAccountEnum;
 
 /**
@@ -24,8 +24,24 @@ import tech.bittercoffee.wechat.api.trade.enums.RefundAccountEnum;
 public final class TradeRefundModel extends TradeSignatureModel {
 
 	private static final long serialVersionUID = -888492915591862535L;
-	private static final RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder()
-			.withinRange('0', '9').build();
+	
+	public static TradeRefundModel withTradeNo(String tradeNo, long totalFee, long refundFee) {
+		TradeRefundModel model = new TradeRefundModel();
+		model.tradeNo = tradeNo;
+		model.totalFee = totalFee;
+		model.refundFee = refundFee;
+		
+		return model;
+	}
+	
+	public static TradeRefundModel withTransactionId(String transactionId, long totalFee, long refundFee) {
+		TradeRefundModel model = new TradeRefundModel();
+		model.transactionId = transactionId;
+		model.totalFee = totalFee;
+		model.refundFee = refundFee;
+		
+		return model;
+	}
 
 	public TradeRefundModel() {
 		this.refundNo = randomStringGenerator.generate(32);
@@ -71,7 +87,7 @@ public final class TradeRefundModel extends TradeSignatureModel {
 	 */
 	@JsonProperty("refund_fee_type")
 	@JacksonXmlCData
-	private String refundFeeType = "CNY";
+	private FeeTypeEnum refundFeeType = FeeTypeEnum.CNY;
 
 	/**
 	 * 退款资金来源 仅针对老资金流商户使用
@@ -96,52 +112,60 @@ public final class TradeRefundModel extends TradeSignatureModel {
 	@JacksonXmlCData
 	private String notifyUrl;
 
-	public String getRefundNo() {
-		return refundNo;
+	public String getTradeNo() {
+		return tradeNo;
 	}
 
-	public void setRefundNo(String refundNo) {
-		this.refundNo = refundNo;
+	public String getTransactionId() {
+		return transactionId;
+	}
+
+	public long getTotalFee() {
+		return totalFee;
+	}
+
+	public String getRefundNo() {
+		return refundNo;
 	}
 
 	public long getRefundFee() {
 		return refundFee;
 	}
 
-	public void setRefundFee(long refundFee) {
-		this.refundFee = refundFee;
-	}
-
-	public String getRefundFeeType() {
+	public FeeTypeEnum getRefundFeeType() {
 		return refundFeeType;
-	}
-
-	public void setRefundFeeType(String refundFeeType) {
-		this.refundFeeType = refundFeeType;
-	}
-
-	public String getNotifyUrl() {
-		return notifyUrl;
-	}
-
-	public void setNotifyUrl(String notifyUrl) {
-		this.notifyUrl = notifyUrl;
-	}
-
-	public String getRefundDesc() {
-		return refundDesc;
-	}
-
-	public void setRefundDesc(String refundDesc) {
-		this.refundDesc = refundDesc;
 	}
 
 	public RefundAccountEnum getRefundAccount() {
 		return refundAccount;
 	}
 
-	public void setRefundAccount(RefundAccountEnum refundAccount) {
-		this.refundAccount = refundAccount;
+	public String getRefundDesc() {
+		return refundDesc;
+	}
+
+	public String getNotifyUrl() {
+		return notifyUrl;
+	}
+
+	public TradeRefundModel feeType(FeeTypeEnum feeType) {
+		this.refundFeeType = feeType;
+		return this;
+	}
+
+	public TradeRefundModel account(RefundAccountEnum account) {
+		this.refundAccount = account;
+		return this;
+	}
+
+	public TradeRefundModel desc(String desc) {
+		this.refundDesc = desc;
+		return this;
+	}
+
+	public TradeRefundModel notifyUrl(String notifyUrl) {
+		this.notifyUrl = notifyUrl;
+		return this;
 	}
 
 	@Override

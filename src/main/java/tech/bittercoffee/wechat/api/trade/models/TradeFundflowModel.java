@@ -1,5 +1,7 @@
 package tech.bittercoffee.wechat.api.trade.models;
 
+import java.time.LocalDate;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -10,6 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import tech.bittercoffee.wechat.api.trade.enums.AccountTypeEnum;
+import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 
 /**
  * 下载资金账单
@@ -23,6 +26,18 @@ import tech.bittercoffee.wechat.api.trade.enums.AccountTypeEnum;
 public final class TradeFundflowModel extends TradeCsvlModel {
 
 	private static final long serialVersionUID = -198191473007581123L;
+	
+	public static TradeFundflowModel at(LocalDate billDate) {
+		TradeFundflowModel model = new TradeFundflowModel();
+		model.billDate = billDate;
+		
+		return model;
+	}
+	
+	public TradeFundflowModel withZip() {
+		this.tarType = TarTypeEnum.GZIP;
+		return this;
+	}
 
 	/**
 	 * 资金账户类型
@@ -30,13 +45,15 @@ public final class TradeFundflowModel extends TradeCsvlModel {
 	@JsonProperty("account_type")
 	@JacksonXmlCData
 	private AccountTypeEnum accountType;
+	
+	public TradeFundflowModel accountType(AccountTypeEnum accountType) {
+		this.accountType = accountType;
+		
+		return this;
+	}
 
 	public AccountTypeEnum getAccountType() {
 		return accountType;
-	}
-
-	public void setAccountType(AccountTypeEnum accountType) {
-		this.accountType = accountType;
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import tech.bittercoffee.wechat.api.trade.WechatApiException;
 import tech.bittercoffee.wechat.api.trade.WechatTradeClient;
-import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillAllInfo;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillAllModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillSummaryInfo;
@@ -20,9 +19,7 @@ class BillTest {
 	@Test
 	void testDownloadBillInvalidDate() {
 		try {
-			TradeBillAllModel model = new TradeBillAllModel();
-			model.setBillDate(LocalDate.of(2021, 5, 15));
-			client.newBillAllAction().withModel(model).execute();
+			client.newBillAllAction().withModel(TradeBillAllModel.at(LocalDate.of(2021, 5, 15))).execute();
 		} catch (WechatApiException e) {
 			Assertions.assertEquals("FAIL", e.getCode());
 		}
@@ -30,10 +27,9 @@ class BillTest {
 	
 	@Test
 	void testDownloadBillZip() throws WechatApiException {
-		TradeBillAllModel model = new TradeBillAllModel();
-		model.setBillDate(LocalDate.of(2020, 5, 15));
-		model.setTarType(TarTypeEnum.GZIP);
-		TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillAllInfo> result = client.newBillAllAction().withModel(model).execute();
+		TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillAllInfo> result = client.newBillAllAction()
+				.withModel(TradeBillAllModel.at(LocalDate.of(2020, 5, 15)).withZip())
+				.execute();
 		
 		Assertions.assertNotNull(result.getRecords());
 		Assertions.assertTrue(!result.getRecords().isEmpty(), "Has records.");
@@ -41,9 +37,9 @@ class BillTest {
 	
 	@Test
 	void testDownloadBillNoZip() throws WechatApiException {
-		TradeBillAllModel model = new TradeBillAllModel();
-		model.setBillDate(LocalDate.of(2020, 5, 15));
-		TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillAllInfo> result = client.newBillAllAction().withModel(model).execute();
+		TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillAllInfo> result = client.newBillAllAction()
+				.withModel(TradeBillAllModel.at(LocalDate.of(2020, 5, 15)))
+				.execute();
 		
 		Assertions.assertNotNull(result.getRecords());
 		Assertions.assertTrue(!result.getRecords().isEmpty(), "Has records.");

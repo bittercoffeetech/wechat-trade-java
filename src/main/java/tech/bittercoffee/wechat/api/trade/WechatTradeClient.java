@@ -160,7 +160,7 @@ public final class WechatTradeClient {
 		R model;
 
 		@SuppressWarnings("unchecked")
-		private <T extends WechatTradeAction<R, S>> Executor(Class<T> r) {
+		private <T extends WechatTradeAction<R, S>> Executor(final Class<T> r) {
 			this.action = ACTIONS.get(r);
 		}
 
@@ -239,7 +239,7 @@ public final class WechatTradeClient {
 		}
 
 		@SuppressWarnings("unchecked")
-		private <M, D> S fromCsvResponse(WechatTradeCsvResponse<M, D> response, InputStream input) 
+		private <M, D> S fromCsvResponse(final WechatTradeCsvResponse<M, D> response, final InputStream input) 
 				throws ReflectiveOperationException, IOException  {
 			Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
 			TradeCsvResponseModel<?, ?> result = invokeConstructor(response.getResponseType(), EMPTY_OBJECT_ARRAY);
@@ -332,16 +332,16 @@ public final class WechatTradeClient {
 		return newRequest(WechatTradeFundflowAction.class);
 	}
 
-	private <R extends TradeSignatureModel, S> Executor<R, S> newRequest(Class<? extends WechatTradeAction<R, S>> req) {
+	private <R extends TradeSignatureModel, S> Executor<R, S> newRequest(final Class<? extends WechatTradeAction<R, S>> req) {
 		return new Executor<>(req);
 	}
 
-	private <S> Notifier<S> newNotifier(Class<? extends WechatTradeResponse<S>> resp) {
+	private <S> Notifier<S> newNotifier(final Class<? extends WechatTradeResponse<S>> resp) {
 		return new Notifier<>(resp);
 	}
 
 	@SuppressWarnings("unchecked")
-	private <S> S fromXmlResponse(WechatTradeResponse<S> response, InputStream input) throws WechatApiException, IOException {
+	private <S> S fromXmlResponse(final WechatTradeResponse<S> response, final InputStream input) throws WechatApiException, IOException {
 		TradeValues tvs = xmlMapper.readValue(new InputStreamReader(input, StandardCharsets.UTF_8), TradeValues.class);
 		
 		TradeReturnModel returnModel = xmlMapper.convertValue(tvs, TradeReturnModel.class);

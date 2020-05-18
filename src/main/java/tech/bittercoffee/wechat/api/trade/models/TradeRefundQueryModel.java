@@ -21,6 +21,20 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 public final class TradeRefundQueryModel extends TradeSignatureModel {
 
 	private static final long serialVersionUID = 8909748011353635694L;
+	
+	public static TradeRefundQueryModel withTradeNo(String tradeNo) {
+		TradeRefundQueryModel model = new TradeRefundQueryModel();
+		model.tradeNo = tradeNo;
+		
+		return model;
+	}
+	
+	public static TradeRefundQueryModel withTransactionId(String transactionId) {
+		TradeRefundQueryModel model = new TradeRefundQueryModel();
+		model.transactionId = transactionId;
+		
+		return model;
+	}
 
 	/**
 	 * 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。
@@ -57,28 +71,31 @@ public final class TradeRefundQueryModel extends TradeSignatureModel {
 	@JacksonXmlCData
 	private Integer offset;
 
-	public String getRefundNo() {
-		return refundNo;
+	public TradeRefundQueryModel refundNo(String refundNo) {
+		this.refundNo = refundNo;
+		return this;
 	}
 
-	public void setRefundNo(String refundNo) {
-		this.refundNo = refundNo;
+	public TradeRefundQueryModel refundId(String refundId) {
+		this.refundId = refundId;
+		return this;
+	}
+
+	public TradeRefundQueryModel offset(Integer offset) {
+		this.offset = offset;
+		return this;
+	}
+	
+	public String getRefundNo() {
+		return refundNo;
 	}
 
 	public String getRefundId() {
 		return refundId;
 	}
-
-	public void setRefundId(String refundId) {
-		this.refundId = refundId;
-	}
-
+	
 	public Integer getOffset() {
 		return offset;
-	}
-
-	public void setOffset(Integer offset) {
-		this.offset = offset;
 	}
 
 	@Override
