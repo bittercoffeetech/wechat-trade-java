@@ -21,4 +21,14 @@ public class WechatTradeCreateAction implements WechatTradeAction<TradeCreateMod
 	public boolean hasHierarchy() {
 		return false;
 	}
+	
+	@Override
+	public Class<TradeCreateModel> getRequestType() {
+		return TradeCreateModel.class;
+	}
+
+	@Override
+	public Class<TradeCreateResponseModel> getResponseType() {
+		return TradeCreateResponseModel.class;
+	}
 }

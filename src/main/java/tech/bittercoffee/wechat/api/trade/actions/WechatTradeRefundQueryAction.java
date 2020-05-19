@@ -17,4 +17,14 @@ public class WechatTradeRefundQueryAction implements WechatTradeAction<TradeRefu
 		return "https://api.mch.weixin.qq.com/pay/refundquery";
 	}
 
+	@Override
+	public Class<TradeRefundQueryModel> getRequestType() {
+		return TradeRefundQueryModel.class;
+	}
+
+	@Override
+	public Class<TradeRefundQueryResponseModel> getResponseType() {
+		return TradeRefundQueryResponseModel.class;
+	}
+
 }

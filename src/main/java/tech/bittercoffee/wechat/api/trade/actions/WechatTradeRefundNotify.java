@@ -30,4 +30,9 @@ public class WechatTradeRefundNotify implements WechatTradeResponse<TradeRefundN
 	public boolean hasHierarchy() {
 		return false;
 	}
+
+	@Override
+	public Class<TradeRefundNotifyModel> getResponseType() {
+		return TradeRefundNotifyModel.class;
+	}
 }

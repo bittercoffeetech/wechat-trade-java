@@ -21,4 +21,15 @@ public class WechatTradeCloseAction implements WechatTradeAction<TradeCloseModel
 	public boolean hasHierarchy() {
 		return false;
 	}
+
+	@Override
+	public Class<TradeCloseModel> getRequestType() {
+		return TradeCloseModel.class;
+	}
+
+	@Override
+	public Class<TradeCloseResponseModel> getResponseType() {
+		return TradeCloseResponseModel.class;
+	}
+	
 }

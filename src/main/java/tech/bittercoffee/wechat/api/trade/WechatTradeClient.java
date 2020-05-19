@@ -36,7 +36,9 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -77,22 +79,20 @@ import tech.bittercoffee.wechat.api.trade.actions.WechatTradeRefundQueryAction;
 import tech.bittercoffee.wechat.api.trade.enums.ErrorCodeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
 import tech.bittercoffee.wechat.api.trade.models.ApiField;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillAllInfo;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillAllModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundInfo;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillAllResponseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessInfo;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillSummaryInfo;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeCloseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeCreateModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotifyModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeCreateResponseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeCsvResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowInfo;
 import tech.bittercoffee.wechat.api.trade.models.TradeFundflowModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowSummaryInfo;
+import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeQueryModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeQueryResponseModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeRefundModel;
@@ -176,18 +176,15 @@ public final class WechatTradeClient {
 					if (response.getCode() == 200) {
 						HttpEntity entity = response.getEntity();
 						
-						if(action instanceof WechatTradeCsvResponse) {
+						if(action.isStreaming()) {
 							boolean isGzip = "application/x-gzip".equals(entity.getContentType());
 						
 							if(!isGzip && !entity.isChunked()) {
-								return fromXmlResponse((WechatTradeResponse<S>) action,
-										entity.getContent());
+								return fromXmlResponse((WechatTradeResponse<S>) action, 	entity.getContent());
 							} else if (!isGzip && entity.isChunked()) {
-								return fromCsvResponse((WechatTradeCsvResponse<?, ?>) action, 
-										entity.getContent());
+								return fromCsvResponse(action, entity.getContent());
 							} else {
-								return fromCsvResponse((WechatTradeCsvResponse<?, ?>) action, 
-										new GZIPInputStream(entity.getContent()));
+								return fromCsvResponse(action, new GZIPInputStream(entity.getContent()));
 							} 
 						} else {
 							return fromXmlResponse((WechatTradeResponse<S>) action, 
@@ -237,10 +234,16 @@ public final class WechatTradeClient {
 		}
 
 		@SuppressWarnings("unchecked")
-		private <M, D> S fromCsvResponse(final WechatTradeCsvResponse<M, D> response, final InputStream input) 
+		private S fromCsvResponse(final WechatTradeResponse<S> response, final InputStream input) 
 				throws IOException  {
+			
 			Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
-			TradeCsvResponseModel<?, ?> result = new TradeCsvResponseModel<>();
+			TradeCsvResponseModel<?, ?> result;
+			try {
+				result = (TradeCsvResponseModel<?, ?>)ConstructorUtils.invokeConstructor(response.getResponseType(), ArrayUtils.EMPTY_OBJECT_ARRAY);
+			} catch (ReflectiveOperationException roe) {
+				return null;
+			}
 		
 			try (LineIterator reader = new LineIterator(new InputStreamReader(input, StandardCharsets.UTF_8))) {
 				AtomicBoolean isSummary = new AtomicBoolean(false);
@@ -254,12 +257,12 @@ public final class WechatTradeClient {
 					if (!isTitle) {
 						try {
 							if (isSummary.get()) {
-								result.setSummary(csvMapper.readerFor(response.getSummaryType())
-										.with(csvMapper.schemaFor(response.getSummaryType()))
+								result.setSummary(csvMapper.readerFor(result.getSummaryType())
+										.with(csvMapper.schemaFor(result.getSummaryType()))
 										.readValue(lineText));
 							} else {
-								result.getRecords().add(csvMapper.readerFor(response.getRecordType())
-										.with(csvMapper.schemaFor(response.getRecordType()))
+								result.getRecords().add(csvMapper.readerFor(result.getRecordType())
+										.with(csvMapper.schemaFor(result.getRecordType()))
 										.readValue(lineText));
 							}
 						} catch (JsonProcessingException e) {
@@ -314,19 +317,19 @@ public final class WechatTradeClient {
 		return newRequest(WechatTradeRefundQueryAction.class);
 	}
 
-	public Executor<TradeBillAllModel, TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillAllInfo>> newBillAllAction() {
+	public Executor<TradeBillAllModel, TradeBillAllResponseModel> newBillAllAction() {
 		return newRequest(WechatTradeBillAllAction.class);
 	}
 
-	public Executor<TradeBillSuccessModel, TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillSuccessInfo>> newBillSuccessAction() {
+	public Executor<TradeBillSuccessModel, TradeBillSuccessResponseModel> newBillSuccessAction() {
 		return newRequest(WechatTradeBillSuccessAction.class);
 	}
 
-	public Executor<TradeBillRefundModel, TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillRefundInfo>> newBillRefundAction() {
+	public Executor<TradeBillRefundModel, TradeBillRefundResponseModel> newBillRefundAction() {
 		return newRequest(WechatTradeBillRefundAction.class);
 	}
 
-	public Executor<TradeFundflowModel, TradeCsvResponseModel<TradeFundflowSummaryInfo, TradeFundflowInfo>> newFundflowAction() {
+	public Executor<TradeFundflowModel, TradeFundflowResponseModel> newFundflowAction() {
 		return newRequest(WechatTradeFundflowAction.class);
 	}
 

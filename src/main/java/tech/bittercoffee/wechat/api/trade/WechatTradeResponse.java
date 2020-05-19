@@ -1,15 +1,5 @@
 package tech.bittercoffee.wechat.api.trade;
 
-import static org.apache.commons.lang3.reflect.TypeUtils.getTypeArguments;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.Map.Entry;
-import java.util.Optional;
-
-import org.apache.commons.lang3.reflect.TypeUtils;
-
 import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
 
 /**
@@ -26,20 +16,7 @@ public interface WechatTradeResponse<S> {
 	 * 
 	 * @return 返回对象类型
 	 */
-	@SuppressWarnings("unchecked")
-	default Class<S> getResponseType() {
-		Optional<Entry<TypeVariable<?>, Type>> found = getTypeArguments(getClass(), WechatTradeResponse.class).entrySet()
-				.stream().filter(e -> "S".equals(e.getKey().getName())).findFirst();
-
-		if(found.isPresent()) {
-			Type notSure = found.get().getValue();
-			return (notSure instanceof ParameterizedType)
-					? (Class<S>) TypeUtils.getRawType(notSure, WechatTradeResponse.class)
-					: (Class<S>) notSure;
-		} else {
-			return null;
-		}
-	}
+	Class<S> getResponseType();
 
 	/**
 	 * @return 返回值中是否包括签名字段
@@ -74,6 +51,10 @@ public interface WechatTradeResponse<S> {
 	 */
 	default SignTypeEnum responseSignType() {
 		return SignTypeEnum.MD5;
+	}
+	
+	default boolean isStreaming() {
+		return false;
 	}
 	
 }

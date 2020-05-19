@@ -10,5 +10,10 @@ import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotifyModel;
  *
  */
 public class WechatTradeCreateNotify implements WechatTradeResponse<TradeCreateNotifyModel> {
+
+	@Override
+	public Class<TradeCreateNotifyModel> getResponseType() {
+		return TradeCreateNotifyModel.class;
+	}
 	
 }

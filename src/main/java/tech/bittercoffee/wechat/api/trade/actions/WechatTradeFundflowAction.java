@@ -1,10 +1,9 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeCsvAction;
+import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
 import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowInfo;
 import tech.bittercoffee.wechat.api.trade.models.TradeFundflowModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowSummaryInfo;
+import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponseModel;
 
 /**
  * 下载资金账单
@@ -12,7 +11,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeFundflowSummaryInfo;
  * @author Bob
  *
  */
-public class WechatTradeFundflowAction implements WechatTradeCsvAction<TradeFundflowModel, TradeFundflowSummaryInfo, TradeFundflowInfo> {
+public class WechatTradeFundflowAction implements WechatTradeAction<TradeFundflowModel, TradeFundflowResponseModel> {
 
 	@Override
 	public String url() {
@@ -32,6 +31,16 @@ public class WechatTradeFundflowAction implements WechatTradeCsvAction<TradeFund
 	@Override
 	public boolean hasHierarchy() {
 		return false;
+	}
+
+	@Override
+	public Class<TradeFundflowModel> getRequestType() {
+		return TradeFundflowModel.class;
+	}
+
+	@Override
+	public Class<TradeFundflowResponseModel> getResponseType() {
+		return TradeFundflowResponseModel.class;
 	}
 
 }

@@ -22,4 +22,14 @@ public class WechatTradeRefundAction implements WechatTradeAction<TradeRefundMod
 		return true;
 	}
 
+	@Override
+	public Class<TradeRefundModel> getRequestType() {
+		return TradeRefundModel.class;
+	}
+
+	@Override
+	public Class<TradeRefundResponseModel> getResponseType() {
+		return TradeRefundResponseModel.class;
+	}
+
 }

@@ -17,4 +17,14 @@ public final class WechatTradeQueryAction implements WechatTradeAction<TradeQuer
 		return "https://api.mch.weixin.qq.com/pay/orderquery";
 	}
 
+	@Override
+	public Class<TradeQueryModel> getRequestType() {
+		return TradeQueryModel.class;
+	}
+
+	@Override
+	public Class<TradeQueryResponseModel> getResponseType() {
+		return TradeQueryResponseModel.class;
+	}
+
 }
