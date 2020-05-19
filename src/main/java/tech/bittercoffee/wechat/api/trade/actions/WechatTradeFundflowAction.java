@@ -32,6 +32,11 @@ public class WechatTradeFundflowAction implements WechatTradeAction<TradeFundflo
 	public boolean hasHierarchy() {
 		return false;
 	}
+	
+	@Override
+	public boolean isStreaming() {
+		return true;
+	}
 
 	@Override
 	public Class<TradeFundflowModel> getRequestType() {

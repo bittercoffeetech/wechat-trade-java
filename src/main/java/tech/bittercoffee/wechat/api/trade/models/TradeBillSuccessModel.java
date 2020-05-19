@@ -1,7 +1,5 @@
 package tech.bittercoffee.wechat.api.trade.models;
 
-import java.time.LocalDate;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -12,7 +10,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import tech.bittercoffee.wechat.api.trade.enums.BillTypeEnum;
-import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 
 /**
  * 下载成功交易账单
@@ -26,18 +23,6 @@ import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 public final class TradeBillSuccessModel extends TradeCsvlModel {
 
 	private static final long serialVersionUID = -198191473007581123L;
-	
-	public static TradeBillSuccessModel at(LocalDate billDate) {
-		TradeBillSuccessModel model = new TradeBillSuccessModel();
-		model.billDate = billDate;
-		
-		return model;
-	}
-	
-	public TradeBillSuccessModel withZip() {
-		this.tarType = TarTypeEnum.GZIP;
-		return this;
-	}
 
 	/**
 	 * 账单类型
@@ -45,10 +30,6 @@ public final class TradeBillSuccessModel extends TradeCsvlModel {
 	@JsonProperty("bill_type")
 	@JacksonXmlCData
 	private BillTypeEnum billType = BillTypeEnum.SUCCESS;
-
-	public BillTypeEnum getBillType() {
-		return billType;
-	}
 
 	@Override
 	public String toString() {

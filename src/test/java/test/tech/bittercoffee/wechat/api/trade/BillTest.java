@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import tech.bittercoffee.wechat.api.trade.WechatApiException;
 import tech.bittercoffee.wechat.api.trade.WechatTradeClient;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillAllInfo;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillAllModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeSheetModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillSummaryInfo;
 import tech.bittercoffee.wechat.api.trade.models.TradeCsvResponseModel;
 
@@ -19,7 +19,7 @@ class BillTest {
 	@Test
 	void testDownloadBillInvalidDate() {
 		try {
-			client.newBillAllAction().withModel(TradeBillAllModel.at(LocalDate.of(2021, 5, 15))).execute();
+			client.newBillAllAction().withModel( TradeSheetModel.billAll().at(LocalDate.of(2021, 5, 15)) ).execute();
 		} catch (WechatApiException e) {
 			Assertions.assertEquals("FAIL", e.getCode());
 		}
@@ -28,7 +28,7 @@ class BillTest {
 	@Test
 	void testDownloadBillZip() throws WechatApiException {
 		TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillAllInfo> result = client.newBillAllAction()
-				.withModel(TradeBillAllModel.at(LocalDate.of(2020, 5, 15)).withZip())
+				.withModel(TradeSheetModel.billAll().at(LocalDate.of(2020, 5, 15)).withZip())
 				.execute();
 		
 		Assertions.assertNotNull(result.getRecords());
@@ -38,7 +38,7 @@ class BillTest {
 	@Test
 	void testDownloadBillNoZip() throws WechatApiException {
 		TradeCsvResponseModel<TradeBillSummaryInfo, TradeBillAllInfo> result = client.newBillAllAction()
-				.withModel(TradeBillAllModel.at(LocalDate.of(2020, 5, 15)))
+				.withModel(TradeSheetModel.billAll().at(LocalDate.of(2020, 5, 15)))
 				.execute();
 		
 		Assertions.assertNotNull(result.getRecords());

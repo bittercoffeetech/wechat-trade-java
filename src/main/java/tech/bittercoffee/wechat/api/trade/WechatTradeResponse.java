@@ -16,7 +16,7 @@ public interface WechatTradeResponse<S> {
 	 * 
 	 * @return 返回对象类型
 	 */
-	Class<S> getResponseType();
+	Class<? extends S> getResponseType();
 
 	/**
 	 * @return 返回值中是否包括签名字段

@@ -15,7 +15,7 @@ public interface WechatTradeRequest<R extends TradeSignatureModel> {
 	/**
 	 * @return 获取请求对象类型
 	 */
-	Class<R> getRequestType();
+	Class<? extends R> getRequestType();
 	
 	/**
 	 * @return 返回接口地址

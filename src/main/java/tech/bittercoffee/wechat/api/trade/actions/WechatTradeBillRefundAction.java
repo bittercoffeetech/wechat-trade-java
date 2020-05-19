@@ -1,6 +1,5 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundModel;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponseModel;
 
@@ -10,22 +9,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponseModel;
  * @author Bob
  *
  */
-public class WechatTradeBillRefundAction implements WechatTradeAction<TradeBillRefundModel, TradeBillRefundResponseModel> {
-
-	@Override
-	public String url() {
-		return "https://api.mch.weixin.qq.com/pay/downloadbill";
-	}
-
-	@Override
-	public boolean hasSigned() {
-		return false;
-	}
-
-	@Override
-	public boolean hasHierarchy() {
-		return false;
-	}
+public class WechatTradeBillRefundAction extends WechatTradeBillAction<TradeBillRefundModel, TradeBillRefundResponseModel> {
 
 	@Override
 	public Class<TradeBillRefundModel> getRequestType() {
