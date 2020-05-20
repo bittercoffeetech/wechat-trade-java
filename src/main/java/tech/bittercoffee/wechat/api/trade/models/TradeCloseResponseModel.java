@@ -10,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 /**
  * 交易关闭返回
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("trade_close_response")

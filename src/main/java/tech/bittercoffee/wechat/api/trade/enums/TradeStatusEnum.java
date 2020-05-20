@@ -3,7 +3,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 /**
  * 交易状态
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum TradeStatusEnum {

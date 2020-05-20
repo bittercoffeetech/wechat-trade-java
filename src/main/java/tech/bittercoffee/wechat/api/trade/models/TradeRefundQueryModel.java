@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 /**
  * 查询退款请求
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("trade_refund_query")

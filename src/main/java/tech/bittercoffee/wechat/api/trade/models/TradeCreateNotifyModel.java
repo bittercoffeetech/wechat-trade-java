@@ -18,7 +18,7 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 /**
  * 支付结果通知
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("trade_create_notify")

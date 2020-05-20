@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 /**
  * 统一下单场景信息
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("store_info")

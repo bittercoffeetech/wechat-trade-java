@@ -5,7 +5,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
 /**
  * 微信接口封装
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  * @param <R> 请求对象类型
  * @param <S> 返回对象类型

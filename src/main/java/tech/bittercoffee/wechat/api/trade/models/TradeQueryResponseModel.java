@@ -19,7 +19,7 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 /**
  * 订单查询返回
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("trade_query_response")

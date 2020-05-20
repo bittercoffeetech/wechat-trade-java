@@ -20,7 +20,7 @@ import tech.bittercoffee.wechat.api.trade.enums.ResultStatusEnum;
 /**
  * 执行返回结果
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -15,7 +15,7 @@ import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
 /**
  * 退款请求返回
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("trade_refund_response")

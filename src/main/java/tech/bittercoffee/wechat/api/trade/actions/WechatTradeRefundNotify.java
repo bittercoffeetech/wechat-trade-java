@@ -6,7 +6,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeRefundNotifyModel;
 /**
  * 退款结果通知
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public class WechatTradeRefundNotify implements WechatTradeResponse<TradeRefundNotifyModel> {

@@ -6,7 +6,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponseModel;
 /**
  * 下载成功交易账单
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public class WechatTradeBillSuccessAction extends WechatTradeBillAction<TradeBillSuccessModel, TradeBillSuccessResponseModel> {

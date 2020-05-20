@@ -6,7 +6,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponseModel;
 /**
  * 下载退款交易账单
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public class WechatTradeBillRefundAction extends WechatTradeBillAction<TradeBillRefundModel, TradeBillRefundResponseModel> {

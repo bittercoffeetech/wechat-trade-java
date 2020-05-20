@@ -13,7 +13,7 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 /**
  * 统一下单返回
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("trade_create_response")

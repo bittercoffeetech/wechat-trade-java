@@ -8,7 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 /**
  * 应用程序标识
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public abstract class TradeAppModel implements Serializable {
@@ -24,13 +24,5 @@ public abstract class TradeAppModel implements Serializable {
 	@JsonProperty("mch_id")
 	@JacksonXmlCData
 	private String mchId;
-
-	public String getAppId() {
-		return appId;
-	}
-
-	public String getMchId() {
-		return mchId;
-	}
 
 }

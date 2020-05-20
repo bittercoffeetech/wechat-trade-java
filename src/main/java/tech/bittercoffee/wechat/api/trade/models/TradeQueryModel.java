@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 /**
  * 查询订单请求
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("trade_query")

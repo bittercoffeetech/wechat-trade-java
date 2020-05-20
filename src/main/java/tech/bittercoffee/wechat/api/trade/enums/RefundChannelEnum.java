@@ -3,7 +3,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 /**
  * 退款渠道
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum RefundChannelEnum {

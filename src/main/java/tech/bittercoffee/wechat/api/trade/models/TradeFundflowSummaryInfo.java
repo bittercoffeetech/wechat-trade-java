@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * 资金账单汇总信息
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

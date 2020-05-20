@@ -5,7 +5,7 @@ import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
 /**
  * 接口返回内容定义
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  * @param <S> 返回对象类型
  */

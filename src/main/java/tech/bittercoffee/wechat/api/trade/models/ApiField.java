@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * 用于标识一个类的属性是一个API接口传递/嵌套类型的名称
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @Target(FIELD)

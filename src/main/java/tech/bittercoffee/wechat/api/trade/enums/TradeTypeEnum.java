@@ -2,7 +2,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 
 /**
  * 交易类型
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum TradeTypeEnum {

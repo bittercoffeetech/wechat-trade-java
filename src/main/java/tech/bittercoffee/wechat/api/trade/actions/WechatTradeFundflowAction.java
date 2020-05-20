@@ -8,7 +8,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponseModel;
 /**
  * 下载资金账单
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public class WechatTradeFundflowAction implements WechatTradeAction<TradeFundflowModel, TradeFundflowResponseModel> {
@@ -19,7 +19,12 @@ public class WechatTradeFundflowAction implements WechatTradeAction<TradeFundflo
 	}
 
 	@Override
-	public SignTypeEnum responseSignType() {
+	public boolean certificated() {
+		return true;
+	}
+
+	@Override
+	public SignTypeEnum requestSignType() {
 		return SignTypeEnum.HMAC_SHA256;
 	}
 

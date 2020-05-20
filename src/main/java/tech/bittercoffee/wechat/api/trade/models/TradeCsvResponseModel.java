@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 /**
  * 对账单返回的封装类型
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  * @param <M> 概要对象类型
  * @param <D> 明细对象类型

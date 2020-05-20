@@ -7,7 +7,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponseModel;
 /**
  * 关闭订单
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public class WechatTradeCloseAction implements WechatTradeAction<TradeCloseModel, TradeCloseResponseModel> {

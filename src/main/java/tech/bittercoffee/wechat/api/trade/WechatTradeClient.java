@@ -1,12 +1,13 @@
 package tech.bittercoffee.wechat.api.trade;
 
 import static java.util.Objects.nonNull;
+import static org.apache.commons.beanutils.ConstructorUtils.invokeConstructor;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.apache.commons.codec.binary.Hex.encodeHexString;
 import static org.apache.commons.codec.digest.DigestUtils.md5;
-import static org.apache.commons.codec.digest.DigestUtils.sha256;
 import static org.apache.commons.collections.MapUtils.getIntValue;
 import static org.apache.commons.collections.MapUtils.getString;
+import static org.apache.commons.lang3.ArrayUtils.EMPTY_OBJECT_ARRAY;
 import static org.apache.commons.lang3.ArrayUtils.add;
 import static org.apache.commons.lang3.ClassUtils.isAssignable;
 import static org.apache.commons.lang3.RegExUtils.removeAll;
@@ -36,9 +37,9 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLContext;
 
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.codec.digest.HmacAlgorithms;
+import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -107,7 +108,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
 /**
  * 微信支付客户端的默认实现
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public final class WechatTradeClient {
@@ -226,8 +227,8 @@ public final class WechatTradeClient {
 			TradeValues tv = xmlMapper.convertValue(this.model, TradeValues.class);
 			tv.put("appid", appId);
 			tv.put("mch_id", mchId);
-			tv.put("sign_type", action.responseSignType());
-			tv.put("sign", tv.getSign.apply(action.responseSignType(), mchKey));
+			tv.put("sign_type", action.requestSignType());
+			tv.put("sign", tv.getSign.apply(action.requestSignType(), mchKey));
 			R signed = xmlMapper.convertValue(tv, action.getRequestType());
 			
 			return xmlMapper.writer().withRootName("xml").writeValueAsString(signed);
@@ -240,7 +241,7 @@ public final class WechatTradeClient {
 			Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
 			TradeCsvResponseModel<?, ?> result;
 			try {
-				result = (TradeCsvResponseModel<?, ?>)ConstructorUtils.invokeConstructor(response.getResponseType(), ArrayUtils.EMPTY_OBJECT_ARRAY);
+				result = (TradeCsvResponseModel<?, ?>)invokeConstructor(response.getResponseType(), EMPTY_OBJECT_ARRAY);
 			} catch (ReflectiveOperationException roe) {
 				return null;
 			}
@@ -388,9 +389,9 @@ public final class WechatTradeClient {
 					.map(p -> p.getKey() + "=" + p.getValue())
 					.reduce((p1, p2) -> p1 + "&" + p2)
 					.orElse(EMPTY) + "&key=" + key;
-		
+			
 			if(SignTypeEnum.HMAC_SHA256.equals(signType)) {
-				return encodeHexString(sha256(toSign.getBytes()), false);
+				return encodeHexString(new HmacUtils(HmacAlgorithms.HMAC_SHA_256, key.getBytes()).hmac(toSign.getBytes()), false);
 			} else {
 				return encodeHexString(md5(toSign.getBytes()), false);
 			}

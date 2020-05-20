@@ -3,7 +3,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 /**
  * ISO 4217 货币代码
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum FeeTypeEnum {

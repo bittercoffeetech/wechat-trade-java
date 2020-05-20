@@ -6,7 +6,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotifyModel;
 /**
  * 支付结果通知
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public class WechatTradeCreateNotify implements WechatTradeResponse<TradeCreateNotifyModel> {

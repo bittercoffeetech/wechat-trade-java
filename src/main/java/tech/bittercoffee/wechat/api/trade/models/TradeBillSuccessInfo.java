@@ -18,7 +18,7 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 /**
  * 交易对账单成功的记录
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

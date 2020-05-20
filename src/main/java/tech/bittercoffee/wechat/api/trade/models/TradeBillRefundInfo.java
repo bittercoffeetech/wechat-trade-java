@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * 交易对账单退款记录
  * 
- * @author Bob
+ * @author BitterCoffee
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder(value = { "trade_time", "app_id", "mch_id", "sub_mch_id", "device_info", "transaction_id", "trade_no",

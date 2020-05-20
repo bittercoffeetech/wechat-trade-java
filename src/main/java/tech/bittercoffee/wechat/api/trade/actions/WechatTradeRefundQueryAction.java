@@ -7,7 +7,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponseModel;
 /**
  * 退款查询
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public class WechatTradeRefundQueryAction implements WechatTradeAction<TradeRefundQueryModel, TradeRefundQueryResponseModel> {

@@ -13,7 +13,7 @@ import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 /**
  * 下载对账单
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -36,19 +36,12 @@ public abstract class TradeCsvlModel extends TradeSignatureModel {
 	@JsonProperty("tar_type")
 	@JacksonXmlCData
 	protected TarTypeEnum tarType;
-	
-	@SuppressWarnings("unchecked")
-	public <T extends TradeCsvlModel> T at(LocalDate billDate) {
-		this.billDate = billDate;
-		return (T) this;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T extends TradeCsvlModel> T withZip() {
-		this.tarType = TarTypeEnum.GZIP;
-		return (T) this;
-	}
 
+	public TradeCsvlModel(LocalDate billDate, TarTypeEnum tarType) {
+		this.billDate = billDate;
+		this.tarType = tarType;
+	}
+	
 	public LocalDate getBillDate() {
 		return billDate;
 	}

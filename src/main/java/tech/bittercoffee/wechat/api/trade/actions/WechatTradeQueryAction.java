@@ -7,7 +7,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeQueryResponseModel;
 /**
  * 订单查询
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public final class WechatTradeQueryAction implements WechatTradeAction<TradeQueryModel, TradeQueryResponseModel> {

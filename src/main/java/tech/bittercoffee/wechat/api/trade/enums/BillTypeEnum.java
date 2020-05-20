@@ -3,7 +3,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 /**
  * 账单类型
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum BillTypeEnum {

@@ -3,7 +3,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 /**
  * 代金券类型
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum CouponTypeEnum {

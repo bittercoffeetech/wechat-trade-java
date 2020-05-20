@@ -4,9 +4,9 @@ import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
 import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
 
 /**
- * 下载所有交易账单
+ * 下载交易账单
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public abstract class WechatTradeBillAction<R extends TradeSignatureModel, S> implements WechatTradeAction<R, S> {

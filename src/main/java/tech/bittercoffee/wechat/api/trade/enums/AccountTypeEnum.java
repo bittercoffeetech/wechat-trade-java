@@ -1,9 +1,11 @@
 package tech.bittercoffee.wechat.api.trade.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * 资金账户类型
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */  
 public enum AccountTypeEnum {
@@ -29,7 +31,13 @@ public enum AccountTypeEnum {
 		this.value = value;
 	}
 
+	@JsonValue
 	public String value() {
+		return this.value;
+	}
+	
+	@Override
+	public String toString() {
 		return this.value;
 	}
 }

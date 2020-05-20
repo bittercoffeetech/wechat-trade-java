@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableMap;
 /**
  * 错误代码
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum ErrorCodeEnum {

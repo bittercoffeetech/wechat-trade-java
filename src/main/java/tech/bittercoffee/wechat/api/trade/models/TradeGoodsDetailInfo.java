@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 /**
  * 产品详情对象
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonRootName("goods_detail")
@@ -64,7 +64,7 @@ public final class TradeGoodsDetailInfo implements Serializable {
 	/**
 	 * 单品优惠活动goods_detail字段
 	 * 
-	 * @author Bob
+	 * @author BitterCoffee
 	 *
 	 */
 	public static class GoodInfo implements Serializable {

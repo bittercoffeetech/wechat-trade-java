@@ -3,7 +3,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 /**
  * 退款状态
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public enum RefundStatusEnum {

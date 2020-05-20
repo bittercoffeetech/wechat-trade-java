@@ -13,7 +13,7 @@ import tech.bittercoffee.wechat.api.trade.enums.CouponTypeEnum;
 /**
  * 退款的代金券
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

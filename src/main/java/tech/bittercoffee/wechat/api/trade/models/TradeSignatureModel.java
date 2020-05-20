@@ -10,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
 /**
  * 签名信息
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public abstract class TradeSignatureModel extends TradeAppModel {

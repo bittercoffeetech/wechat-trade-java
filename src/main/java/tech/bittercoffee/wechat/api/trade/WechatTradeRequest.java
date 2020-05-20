@@ -6,7 +6,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
 /**
  * 接口请求内容定义
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  * @param <R> 请求对象类型
  */

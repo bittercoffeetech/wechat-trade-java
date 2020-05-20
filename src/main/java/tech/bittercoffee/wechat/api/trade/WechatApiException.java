@@ -8,7 +8,7 @@ import tech.bittercoffee.wechat.api.trade.enums.ErrorCodeEnum;
 /**
  * 微信调用失败或返回错误时发生的异常
  * 
- * @author Bob
+ * @author BitterCoffee
  *
  */
 public final class WechatApiException extends Exception {
