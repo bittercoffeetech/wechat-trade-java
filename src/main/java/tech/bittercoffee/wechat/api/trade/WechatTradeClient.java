@@ -147,6 +147,14 @@ public final class WechatTradeClient {
 	private String mchKey;
 	private InputStream apiCert;
 
+	/**
+	 * @param appId 应用ID
+	 * @param mchId 商户ID
+	 * @param mchKey 商户秘钥
+	 * @param apiCert 客户端证书
+	 * 
+	 * 创建微信支付客户端对象
+	 */
 	public WechatTradeClient(String appId, String mchId, String mchKey, InputStream apiCert) {
 		this.appId = appId;
 		this.mchId = mchId;
