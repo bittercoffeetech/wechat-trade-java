@@ -4,8 +4,9 @@
 
 ```java
 WechatTradeClient client = new WechatTradeClient("app id", "mch id", "mch key", "证书文件 Stream");
-	    
-client.newCreateAction().withModel(TradeCreateModel.newOrder(TradeTypeEnum.JSAPI, 100, "押金支付")
+
+TradeCreateResponseModel result = client.newCreateAction()
+  .withModel(TradeCreateModel.newOrder(TradeTypeEnum.JSAPI, 100, "押金支付")
     .spbillCreateIp("<id address>")
     .receipt(true)
     .openId("<open id>")
