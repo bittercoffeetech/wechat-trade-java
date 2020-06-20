@@ -3,7 +3,7 @@
 ## 统一下单
 
 ```java
-WechatTradeClient client = new WechatTradeClient("wx8949c222019862f5","1234539902","a10add3849ba56abbe56e056f20f883f", null);
+WechatTradeClient client = new WechatTradeClient("app id", "mch id", "mch key", "证书文件 Stream");
 	    
 client.newCreateAction().withModel(TradeCreateModel.newOrder(TradeTypeEnum.JSAPI, 100, "押金支付")
     .spbillCreateIp("<id address>")
