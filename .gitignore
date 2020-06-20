@@ -27,3 +27,5 @@ target
 .project
 .settings
 .springBeans
+src/test
+
