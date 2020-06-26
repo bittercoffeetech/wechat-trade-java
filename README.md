@@ -5,8 +5,7 @@
 ```java
 WechatTradeClient client = new WechatTradeClient("app id", "mch id", "mch key", "证书文件 Stream");
 
-TradeCreateResponseModel result = client.newCreateAction()
-  .withModel(TradeCreateModel.newOrder(TradeTypeEnum.JSAPI, 100, "押金支付")
+TradeCreateResponseModel result = client.createTrade(TradeCreateModel.newOrder(TradeTypeEnum.JSAPI, 100, "押金支付")
     .spbillCreateIp("<id address>")
     .receipt(true)
     .openId("<open id>")
@@ -14,8 +13,7 @@ TradeCreateResponseModel result = client.newCreateAction()
     .notifyUrl("https://<ip>:<port>/wechat/pay/notify")
     .timeStart(LocalDateTime.now())
     .timeExpire(LocalDateTime.now())
-    .sceneInfo(new TradeSceneInfo("111","ZH","quan1","tj"))
-  ).execute();
+    .sceneInfo(new TradeSceneInfo("111","ZH","quan1","tj")));
 ```
 
 ## 订单查询
@@ -24,9 +22,7 @@ TradeCreateResponseModel result = client.newCreateAction()
 
 WechatTradeClient client = new WechatTradeClient("app id", "mch id", "mch key", "证书文件 Stream");
 
-TradeQueryResponseModel result = client.newQueryAction()
-        .withModel(TradeQueryModel.withTradeNo("90013580520959892632499715588959"))
-        .execute();
+TradeQueryResponseModel result = client.queryTrade(TradeQueryModel.withTradeNo("商户单号"));
 
 
 ```
