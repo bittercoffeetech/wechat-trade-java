@@ -163,17 +163,13 @@ public final class WechatTradeClient {
 	}
 	
 	public class Executor<R extends TradeSignatureModel, S> {
-		WechatTradeAction<R, S> action;
-		R model;
+		private WechatTradeAction<R, S> action;
+		private R model;
 
 		@SuppressWarnings("unchecked")
-		private <T extends WechatTradeAction<R, S>> Executor(final Class<T> r) {
+		private <T extends WechatTradeAction<R, S>> Executor(final Class<T> r, final R model) {
 			this.action = ACTIONS.get(r);
-		}
-
-		public Executor<R, S> withModel(final R model) {
 			this.model = model;
-			return this;
 		}
 
 		public S execute() throws WechatApiException {
@@ -306,44 +302,44 @@ public final class WechatTradeClient {
 		return newNotifier(WechatTradeRefundNotify.class);
 	}
 
-	public Executor<TradeCreateModel, TradeCreateResponseModel> newCreateAction() {
-		return newRequest(WechatTradeCreateAction.class);
+	public Executor<TradeCreateModel, TradeCreateResponseModel> newCreateAction(final TradeCreateModel model) {
+		return newRequest(WechatTradeCreateAction.class, model);
 	}
 
-	public Executor<TradeQueryModel, TradeQueryResponseModel> newQueryAction() {
-		return newRequest(WechatTradeQueryAction.class);
+	public Executor<TradeQueryModel, TradeQueryResponseModel> newQueryAction(TradeQueryModel model) {
+		return newRequest(WechatTradeQueryAction.class, model);
 	}
 
-	public Executor<TradeCloseModel, TradeCloseResponseModel> newCloseAction() {
-		return newRequest(WechatTradeCloseAction.class);
+	public Executor<TradeCloseModel, TradeCloseResponseModel> newCloseAction(TradeCloseModel model) {
+		return newRequest(WechatTradeCloseAction.class, model);
 	}
 
-	public Executor<TradeRefundModel, TradeRefundResponseModel> newRefundAction() {
-		return newRequest(WechatTradeRefundAction.class);
+	public Executor<TradeRefundModel, TradeRefundResponseModel> newRefundAction(TradeRefundModel model) {
+		return newRequest(WechatTradeRefundAction.class, model);
 	}
 
-	public Executor<TradeRefundQueryModel, TradeRefundQueryResponseModel> newRefundQueryAction() {
-		return newRequest(WechatTradeRefundQueryAction.class);
+	public Executor<TradeRefundQueryModel, TradeRefundQueryResponseModel> newRefundQueryAction(TradeRefundQueryModel model) {
+		return newRequest(WechatTradeRefundQueryAction.class, model);
 	}
 
-	public Executor<TradeBillAllModel, TradeBillAllResponseModel> newBillAllAction() {
-		return newRequest(WechatTradeBillAllAction.class);
+	public Executor<TradeBillAllModel, TradeBillAllResponseModel> newBillAllAction(TradeBillAllModel model) {
+		return newRequest(WechatTradeBillAllAction.class, model);
 	}
 
-	public Executor<TradeBillSuccessModel, TradeBillSuccessResponseModel> newBillSuccessAction() {
-		return newRequest(WechatTradeBillSuccessAction.class);
+	public Executor<TradeBillSuccessModel, TradeBillSuccessResponseModel> newBillSuccessAction(TradeBillSuccessModel model) {
+		return newRequest(WechatTradeBillSuccessAction.class, model);
 	}
 
-	public Executor<TradeBillRefundModel, TradeBillRefundResponseModel> newBillRefundAction() {
-		return newRequest(WechatTradeBillRefundAction.class);
+	public Executor<TradeBillRefundModel, TradeBillRefundResponseModel> newBillRefundAction(TradeBillRefundModel model) {
+		return newRequest(WechatTradeBillRefundAction.class, model);
 	}
 
-	public Executor<TradeFundflowModel, TradeFundflowResponseModel> newFundflowAction() {
-		return newRequest(WechatTradeFundflowAction.class);
+	public Executor<TradeFundflowModel, TradeFundflowResponseModel> newFundflowAction(TradeFundflowModel model) {
+		return newRequest(WechatTradeFundflowAction.class, model);
 	}
 
-	private <R extends TradeSignatureModel, S> Executor<R, S> newRequest(final Class<? extends WechatTradeAction<R, S>> req) {
-		return new Executor<>(req);
+	private <R extends TradeSignatureModel, S> Executor<R, S> newRequest(final Class<? extends WechatTradeAction<R, S>> req, final R model) {
+		return new Executor<>(req, model);
 	}
 
 	private <S> Notifier<S> newNotifier(final Class<? extends WechatTradeResponse<S>> resp) {
