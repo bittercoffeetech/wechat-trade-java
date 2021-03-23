@@ -10,10 +10,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
@@ -126,176 +134,6 @@ public final class WechatTradeClient {
 		this.mchKey = mchKey;
 		this.apiCert = apiCert;
 	}
-	
-	public class Parser<S> {
-		private WechatTradeResponse<S> action;
-		<T extends WechatTradeResponse<S>> Parser(final T action) {
-			this.action = action;
-		}
-		public S execute(InputStream data) throws WechatApiException, IOException {
-			return parseXmlResponse(action, data);
-		}		
-		
-	}
-
-	public class Executor<R extends TradeSignatureModel, S> {
-		private WechatTradeAction<R, S> action;
-		private R model;
-
-		private <T extends WechatTradeAction<R, S>> Executor(final T action, final R model) {
-			this.action = action;
-			this.model = model;
-		}
-
-		public S execute() throws WechatApiException {
-			try (CloseableHttpClient httpClient = createHttpClient()) {
-				HttpPost httpPost = new HttpPost(action.url());
-				httpPost.setEntity(new StringEntity(toRequestBody(), ContentType.APPLICATION_XML));
-
-				try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-					if (response.getCode() == 200) {
-						HttpEntity entity = response.getEntity();
-
-						if (action.isStreaming()) {
-							boolean isGzip = "application/x-gzip".equals(entity.getContentType());
-
-							if (!isGzip && !entity.isChunked()) {
-								return parseXmlResponse((WechatTradeResponse<S>) action, entity.getContent());
-							} else if (!isGzip && entity.isChunked()) {
-								return parseCsvResponse(action, entity.getContent());
-							} else {
-								return parseCsvResponse(action, new GZIPInputStream(entity.getContent()));
-							}
-						} else {
-							return parseXmlResponse((WechatTradeResponse<S>) action, entity.getContent());
-						}
-					} else {
-						throw new WechatApiException(String.valueOf(response.getCode()), response.getReasonPhrase());
-					}
-				}
-			} catch (WechatApiException wae) {
-				throw wae;
-			} catch (Exception e) {
-				throw new WechatApiException(ErrorCodeEnum.of(ErrorCodeEnum.INVALID_REQUEST), e);
-			}
-		}
-
-		private CloseableHttpClient createHttpClient() throws IOException, GeneralSecurityException {
-			CloseableHttpClient httpClient;
-			if (action.certificated()) {
-				final KeyStore keyStore = KeyStore.getInstance("PKCS12");
-				keyStore.load(apiCert, mchId.toCharArray());
-				final SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(keyStore, mchId.toCharArray())
-						.build();
-				final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
-						.setSslContext(sslContext).setTlsVersions(TLS.V_1_2).build();
-				final HttpClientConnectionManager conectionManager = PoolingHttpClientConnectionManagerBuilder.create()
-						.setSSLSocketFactory(sslSocketFactory).build();
-
-				httpClient = HttpClients.custom().setConnectionManager(conectionManager).build();
-			} else {
-				httpClient = HttpClients.createDefault();
-			}
-			return httpClient;
-		}
-
-		private String toRequestBody() throws IOException {
-			TradeValues tv = xmlMapper.convertValue(this.model, TradeValues.class);
-			tv.put("appid", appId);
-			tv.put("mch_id", mchId);
-			tv.put("sign_type", action.requestSignType());
-			tv.put("sign", tv.getSign.apply(action.requestSignType(), mchKey));
-			R signed = xmlMapper.convertValue(tv, action.getRequestType());
-
-			return xmlMapper.writer().withRootName("xml").writeValueAsString(signed);
-		}
-
-		@SuppressWarnings({ "unchecked", "hiding" })
-		private <S> S parseCsvResponse(final WechatTradeResponse<S> response, final InputStream input) throws IOException {
-		
-			Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
-			TradeCsvResponseModel<?, ?> result;
-			try {
-				result = (TradeCsvResponseModel<?, ?>) invokeConstructor(response.getResponseType(),
-						EMPTY_OBJECT_ARRAY);
-			} catch (ReflectiveOperationException roe) {
-				return null;
-			}
-		
-			try (LineIterator reader = new LineIterator(new InputStreamReader(input, StandardCharsets.UTF_8))) {
-				AtomicBoolean isSummary = new AtomicBoolean(false);
-		
-				reader.next(); // Skip First Title
-				reader.forEachRemaining(lineText -> {
-					lineText = removeAll(lineText, "(`|\\r|\\n)");
-					boolean isTitle = isChineseWord.test(lineText.substring(0, 1));
-		
-					if (!isSummary.get()) {
-						isSummary.set(isTitle);
-					}
-					if (!isTitle) {
-						try {
-							if (isSummary.get()) {
-								result.setSummary(csvMapper.readerFor(result.getSummaryType())
-										.with(csvMapper.schemaFor(result.getSummaryType())).readValue(lineText));
-							} else {
-								result.getRecords().add(csvMapper.readerFor(result.getRecordType())
-										.with(csvMapper.schemaFor(result.getRecordType())).readValue(lineText));
-							}
-						} catch (JsonProcessingException e) {
-							// Ignore
-						}
-					}
-				});
-			}
-		
-			return (S) result;
-		}
-	}
-
-	public TradeCreateNotifyModel onCreateNotifier(InputStream xml) throws WechatApiException, IOException {
-		return (new Parser<>(WECHAT_TRADE_CREATE_NOTIFY)).execute(xml);
-	}
-
-	public TradeRefundNotifyModel onRefundNotifier(InputStream xml) throws WechatApiException, IOException {
-		return (new Parser<>(WECHAT_TRADE_REFUND_NOTIFY)).execute(xml);
-	}
-
-	public TradeCreateResponseModel createTrade(final TradeCreateModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_CREATE_ACTION, model)).execute();
-	}
-
-	public TradeQueryResponseModel queryTrade(TradeQueryModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_QUERY_ACTION, model)).execute();
-	}
-
-	public TradeCloseResponseModel closeTrade(TradeCloseModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_CLOSE_ACTION, model)).execute();
-	}
-
-	public TradeRefundResponseModel createRefund(TradeRefundModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_REFUND_ACTION, model)).execute();
-	}
-
-	public TradeRefundQueryResponseModel queryRefund(TradeRefundQueryModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_REFUND_QUERY_ACTION, model)).execute();
-	}
-
-	public TradeBillAllResponseModel downloadBillAll(TradeBillAllModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_BILL_ALL_ACTION, model)).execute();
-	}
-
-	public TradeBillSuccessResponseModel downloadBillSuccess(TradeBillSuccessModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_BILL_SUCCESS_ACTION, model)).execute();
-	}
-
-	public TradeBillRefundResponseModel downloadBillRefund(TradeBillRefundModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_BILL_REFUND_ACTION, model)).execute();
-	}
-
-	public TradeFundflowResponseModel downloadFundflow(TradeFundflowModel model) throws WechatApiException {
-		return (new Executor<>(WECHAT_TRADE_FUNDFLOW_ACTION, model)).execute();
-	}
 
 	@SuppressWarnings("unchecked")
 	private <S> S parseXmlResponse(final WechatTradeResponse<S> response, final InputStream input)
@@ -329,5 +167,163 @@ public final class WechatTradeClient {
 		}
 	
 		return xmlMapper.convertValue(tvs, response.getResponseType());
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private <S> S parseCsvResponse(final WechatTradeResponse<S> response, final InputStream input) throws IOException {
+	
+		Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
+		TradeCsvResponseModel<?, ?> result;
+		try {
+			result = (TradeCsvResponseModel<?, ?>) invokeConstructor(response.getResponseType(),
+					EMPTY_OBJECT_ARRAY);
+		} catch (ReflectiveOperationException roe) {
+			return null;
+		}
+	
+		try (LineIterator reader = new LineIterator(new InputStreamReader(input, StandardCharsets.UTF_8))) {
+			AtomicBoolean isSummary = new AtomicBoolean(false);
+	
+			reader.next(); // Skip First Title
+			reader.forEachRemaining(lineText -> {
+				lineText = removeAll(lineText, "(`|\\r|\\n)");
+				boolean isTitle = isChineseWord.test(lineText.substring(0, 1));
+	
+				if (!isSummary.get()) {
+					isSummary.set(isTitle);
+				}
+				if (!isTitle) {
+					try {
+						if (isSummary.get()) {
+							result.setSummary(csvMapper.readerFor(result.getSummaryType())
+									.with(csvMapper.schemaFor(result.getSummaryType())).readValue(lineText));
+						} else {
+							result.getRecords().add(csvMapper.readerFor(result.getRecordType())
+									.with(csvMapper.schemaFor(result.getRecordType())).readValue(lineText));
+						}
+					} catch (JsonProcessingException e) {
+						// Ignore
+					}
+				}
+			});
+		}
+	
+		return (S) result;
+	}
+
+	private <R extends TradeSignatureModel, S> S execute(WechatTradeAction<R, S> action, R model) throws WechatApiException {
+		
+		Supplier<CloseableHttpClient> createHttpClient = () -> {
+			CloseableHttpClient httpClient = null;
+			if (action.certificated()) {
+				try {
+					final KeyStore keyStore = KeyStore.getInstance("PKCS12");
+					keyStore.load(apiCert, mchId.toCharArray());
+					final SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(keyStore, mchId.toCharArray())
+							.build();
+					final SSLConnectionSocketFactory sslSocketFactory = SSLConnectionSocketFactoryBuilder.create()
+							.setSslContext(sslContext).setTlsVersions(TLS.V_1_2).build();
+					final HttpClientConnectionManager conectionManager = PoolingHttpClientConnectionManagerBuilder.create()
+							.setSSLSocketFactory(sslSocketFactory).build();
+
+					httpClient = HttpClients.custom().setConnectionManager(conectionManager).build();
+				} catch (IOException | GeneralSecurityException e) {
+					httpClient = HttpClients.createDefault();
+				}
+			} else {
+				httpClient = HttpClients.createDefault();
+			}
+			return httpClient;
+		};
+		
+		Supplier<String> toRequestBody = () -> {
+			TradeValues tv = xmlMapper.convertValue(model, TradeValues.class);
+			tv.put("appid", appId);
+			tv.put("mch_id", mchId);
+			tv.put("sign_type", action.requestSignType());
+			tv.put("sign", tv.getSign.apply(action.requestSignType(), mchKey));
+			R signed = xmlMapper.convertValue(tv, action.getRequestType());
+
+			try {
+				return xmlMapper.writer().withRootName("xml").writeValueAsString(signed);
+			} catch (JsonProcessingException e) {
+				return "{}";
+			}
+		};
+		
+		try (CloseableHttpClient httpClient = createHttpClient.get()) {
+			HttpPost httpPost = new HttpPost(action.url());
+			httpPost.setEntity(new StringEntity(toRequestBody.get(), ContentType.APPLICATION_XML));
+
+			try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
+				if (response.getCode() == 200) {
+					HttpEntity entity = response.getEntity();
+
+					if (action.isStreaming()) {
+						boolean isGzip = "application/x-gzip".equals(entity.getContentType());
+
+						if (!isGzip && !entity.isChunked()) {
+							return parseXmlResponse(action, entity.getContent());
+						} else if (!isGzip && entity.isChunked()) {
+							return parseCsvResponse(action, entity.getContent());
+						} else {
+							return parseCsvResponse(action, new GZIPInputStream(entity.getContent()));
+						}
+					} else {
+						return parseXmlResponse((WechatTradeResponse<S>) action, entity.getContent());
+					}
+				} else {
+					throw new WechatApiException(String.valueOf(response.getCode()), response.getReasonPhrase());
+				}
+			}
+		} catch (WechatApiException wae) {
+			throw wae;
+		} catch (Exception e) {
+			throw new WechatApiException(ErrorCodeEnum.of(ErrorCodeEnum.INVALID_REQUEST), e);
+		}
+	}
+
+	public TradeCreateNotifyModel onCreateNotifier(InputStream xml) throws WechatApiException, IOException {
+		return parseXmlResponse(WECHAT_TRADE_CREATE_NOTIFY, xml);
+	}
+
+	public TradeRefundNotifyModel onRefundNotifier(InputStream xml) throws WechatApiException, IOException {
+		return parseXmlResponse(WECHAT_TRADE_REFUND_NOTIFY, xml);
+	}
+
+	public TradeCreateResponseModel createTrade(final TradeCreateModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_CREATE_ACTION, model);
+	}
+
+	public TradeQueryResponseModel queryTrade(TradeQueryModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_QUERY_ACTION, model);
+	}
+
+	public TradeCloseResponseModel closeTrade(TradeCloseModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_CLOSE_ACTION, model);
+	}
+
+	public TradeRefundResponseModel createRefund(TradeRefundModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_ACTION, model);
+	}
+
+	public TradeRefundQueryResponseModel queryRefund(TradeRefundQueryModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, model);
+	}
+
+	public TradeBillAllResponseModel downloadBillAll(TradeBillAllModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_ALL_ACTION, model);
+	}
+
+	public TradeBillSuccessResponseModel downloadBillSuccess(TradeBillSuccessModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_SUCCESS_ACTION, model);
+	}
+
+	public TradeBillRefundResponseModel downloadBillRefund(TradeBillRefundModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_REFUND_ACTION, model);
+	}
+
+	public TradeFundflowResponseModel downloadFundflow(TradeFundflowModel model) throws WechatApiException {
+		return execute(WECHAT_TRADE_FUNDFLOW_ACTION, model);
 	}
 }
