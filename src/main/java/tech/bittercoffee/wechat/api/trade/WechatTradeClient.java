@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -240,7 +241,7 @@ public final class WechatTradeClient {
 			try {
 				return xmlMapper.writer().withRootName("xml").writeValueAsString(signed);
 			} catch (JsonProcessingException e) {
-				return "{}";
+				return "<xml/>";
 			}
 		};
 		
@@ -291,32 +292,68 @@ public final class WechatTradeClient {
 	public TradeQueryResponseModel queryTrade(TradeQueryModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_QUERY_ACTION, model);
 	}
+	
+	public TradeQueryResponseModel queryTrade(String outTradeNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_QUERY_ACTION, TradeQueryModel.withTradeNo(outTradeNo));
+	}
 
 	public TradeCloseResponseModel closeTrade(TradeCloseModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_CLOSE_ACTION, model);
+	}
+	
+	public TradeCloseResponseModel closeTrade(String outTradeNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_CLOSE_ACTION, TradeCloseModel.withTradeNo(outTradeNo));
 	}
 
 	public TradeRefundResponseModel createRefund(TradeRefundModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_REFUND_ACTION, model);
 	}
+	
+	public TradeRefundResponseModel createRefund(String tradeNo, long totalFee, long refundFeel) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_ACTION, TradeRefundModel.withTradeNo(tradeNo, totalFee, refundFeel));
+	}
 
 	public TradeRefundQueryResponseModel queryRefund(TradeRefundQueryModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, model);
+	}
+	
+	public TradeRefundQueryResponseModel queryRefund(String outTradeNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, TradeRefundQueryModel.withTradeNo(outTradeNo));
+	}
+	
+	public TradeRefundQueryResponseModel queryRefund(String outTradeNo, String refundNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, TradeRefundQueryModel.withTradeNo(outTradeNo).refundNo(refundNo));
 	}
 
 	public TradeBillAllResponseModel downloadBillAll(TradeBillAllModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_BILL_ALL_ACTION, model);
 	}
+	
+	public TradeBillAllResponseModel downloadBillAll(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_ALL_ACTION, TradeBillAllModel.of(billDate, zip));
+	}
 
 	public TradeBillSuccessResponseModel downloadBillSuccess(TradeBillSuccessModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_BILL_SUCCESS_ACTION, model);
+	}
+	
+	public TradeBillSuccessResponseModel downloadBillSuccess(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_SUCCESS_ACTION, TradeBillSuccessModel.of(billDate, zip));
 	}
 
 	public TradeBillRefundResponseModel downloadBillRefund(TradeBillRefundModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_BILL_REFUND_ACTION, model);
 	}
+	
+	public TradeBillRefundResponseModel downloadBillRefund(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_REFUND_ACTION, TradeBillRefundModel.of(billDate, zip));
+	}
 
 	public TradeFundflowResponseModel downloadFundflow(TradeFundflowModel model) throws WechatApiException {
 		return execute(WECHAT_TRADE_FUNDFLOW_ACTION, model);
+	}
+	
+	public TradeFundflowResponseModel downloadFundflow(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_FUNDFLOW_ACTION, TradeFundflowModel.of(billDate, zip));
 	}
 }
