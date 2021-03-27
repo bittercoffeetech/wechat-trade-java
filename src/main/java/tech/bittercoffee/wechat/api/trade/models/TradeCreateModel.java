@@ -29,10 +29,6 @@ public final class TradeCreateModel extends TradeSignatureModel {
 
 	private static final long serialVersionUID = 6260044783248850548L;
 
-	public TradeCreateModel() {
-		this.tradeNo = randomStringGenerator.generate(32);
-	}
-	
 	public static TradeCreateModel newOrder(TradeTypeEnum tradeType, long totalFee, String body) {
 		TradeCreateModel model = new TradeCreateModel();
 		model.tradeType = tradeType;
@@ -41,13 +37,6 @@ public final class TradeCreateModel extends TradeSignatureModel {
 		
 		return model;
 	}
-
-	/**
-	 * 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*且在同一个商户号下唯一。
-	 */
-	@JsonProperty("out_trade_no")
-	@JacksonXmlCData
-	private String tradeNo;
 
 	/**
 	 * 符合ISO 4217标准的三位字母代码，默认人民币：CNY
@@ -271,10 +260,6 @@ public final class TradeCreateModel extends TradeSignatureModel {
 	public TradeCreateModel detail(TradeGoodsDetailInfo detail) {
 		this.detail = detail;
 		return this;
-	}
-
-	public String getTradeNo() {
-		return tradeNo;
 	}
 
 	public FeeTypeEnum getFeeType() {

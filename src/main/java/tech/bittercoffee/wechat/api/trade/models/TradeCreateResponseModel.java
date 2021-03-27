@@ -22,6 +22,16 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 public final class TradeCreateResponseModel extends TradeAppModel {
 
 	private static final long serialVersionUID = 8268705503120335822L;
+	
+	public TradeCreateResponseModel() {
+		this.tradeNo = randomStringGenerator.generate(32);
+	}
+	
+	/**
+	 * 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*且在同一个商户号下唯一。
+	 */
+	@JsonProperty("out_trade_no")
+	private String tradeNo;
 
 	/**
 	 * 二维码链接
@@ -52,6 +62,10 @@ public final class TradeCreateResponseModel extends TradeAppModel {
 	@ApiField(name = "device_info")
 	@JsonProperty("device_info")
 	private String deviceInfo;
+	
+	public String getTradeNo() {
+		return tradeNo;
+	}
 
 	public String getCodeUrl() {
 		return codeUrl;
