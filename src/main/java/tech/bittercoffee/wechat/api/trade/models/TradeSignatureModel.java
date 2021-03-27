@@ -17,7 +17,8 @@ public abstract class TradeSignatureModel extends TradeAppModel {
 
 	private static final long serialVersionUID = -8209377529629240145L;
 	protected static final RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder()
-			.withinRange(new char[][] { { '0', '9' }, { 'A', 'Z' } }).build();
+			.withinRange('0', '9')
+			.build();
 
 	/**
 	 * 随机字符串
