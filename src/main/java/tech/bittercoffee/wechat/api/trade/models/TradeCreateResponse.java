@@ -19,11 +19,11 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 @JsonRootName("trade_create_response")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeCreateResponseModel extends TradeAppModel {
+public final class TradeCreateResponse extends TradeAppInfo {
 
 	private static final long serialVersionUID = 8268705503120335822L;
 	
-	public TradeCreateResponseModel() {
+	public TradeCreateResponse() {
 		this.tradeNo = randomStringGenerator.generate(32);
 	}
 	

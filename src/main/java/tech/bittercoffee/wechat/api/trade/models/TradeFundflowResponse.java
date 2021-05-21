@@ -6,7 +6,7 @@ package tech.bittercoffee.wechat.api.trade.models;
  * @author BitterCoffee
  *
  */
-public class TradeFundflowResponseModel extends TradeCsvResponseModel<TradeFundflowSummaryInfo, TradeFundflowInfo> {
+public class TradeFundflowResponse extends TradeSheetResponse<TradeFundflowSummaryInfo, TradeFundflowInfo> {
 
 	private static final long serialVersionUID = -6255447743096773519L;
 

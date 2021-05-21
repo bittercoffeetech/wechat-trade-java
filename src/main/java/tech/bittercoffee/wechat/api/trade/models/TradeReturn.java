@@ -25,13 +25,13 @@ import tech.bittercoffee.wechat.api.trade.enums.ResultStatusEnum;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public class TradeReturnModel implements Serializable {
+public class TradeReturn implements Serializable {
 
 	private static final long serialVersionUID = 8509282269114024065L;
-	public static final TradeReturnModel OK = new TradeReturnModel(ResultStatusEnum.SUCCESS, "OK");
+	public static final TradeReturn OK = new TradeReturn(ResultStatusEnum.SUCCESS, "OK");
 
-	public static final TradeReturnModel fail(String error) {
-		return new TradeReturnModel(ResultStatusEnum.FAIL, error);
+	public static final TradeReturn fail(String error) {
+		return new TradeReturn(ResultStatusEnum.FAIL, error);
 	}
 
 	/**
@@ -48,14 +48,14 @@ public class TradeReturnModel implements Serializable {
 	@JacksonXmlCData
 	private String returnMessage;
 	
-	public TradeReturnModel(ResultStatusEnum returnCode, String returnMessage) {
+	public TradeReturn(ResultStatusEnum returnCode, String returnMessage) {
 		super();
 		this.returnCode = returnCode;
 		this.returnMessage = returnMessage;
 	}
 
 	@JsonCreator
-	public TradeReturnModel(@JsonProperty("return_code") String returnCode,
+	public TradeReturn(@JsonProperty("return_code") String returnCode,
 			@JsonProperty("return_msg") String returnMessage,
 			@JsonProperty("error_code") String errorCode) {
 		super();

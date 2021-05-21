@@ -1,7 +1,7 @@
 package tech.bittercoffee.wechat.api.trade;
 
 import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
-import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeSignatureInfo;
 
 /**
  * 接口请求内容定义
@@ -10,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
  *
  * @param <R> 请求对象类型
  */
-public interface WechatTradeRequest<R extends TradeSignatureModel> {
+public interface WechatTradeRequest<R extends TradeSignatureInfo> {
 	
 	/**
 	 * @return 获取请求对象类型

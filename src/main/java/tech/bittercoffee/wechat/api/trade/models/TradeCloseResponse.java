@@ -16,7 +16,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JsonRootName("trade_close_response")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeCloseResponseModel extends TradeAppModel {
+public final class TradeCloseResponse extends TradeAppInfo {
 
 	private static final long serialVersionUID = -8310580381720323679L;
 

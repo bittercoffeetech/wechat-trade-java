@@ -19,7 +19,7 @@ import tech.bittercoffee.wechat.api.trade.enums.RefundStatusEnum;
 /**
  * 退款详细信息
  * 
- * @see TradeRefundQueryResponseModel
+ * @see TradeRefundQueryResponse
  * @author BitterCoffee
  *
  */

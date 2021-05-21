@@ -1,8 +1,8 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
 import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeCreateModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCreateResponseModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeCreateRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeCreateResponse;
 
 /**
  * 统一下单
@@ -10,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeCreateResponseModel;
  * @author BitterCoffee
  *
  */
-public class WechatTradeCreateAction implements WechatTradeAction<TradeCreateModel, TradeCreateResponseModel> {
+public class WechatTradeCreateAction implements WechatTradeAction<TradeCreateRequest, TradeCreateResponse> {
 
 	@Override
 	public String url() {
@@ -23,12 +23,12 @@ public class WechatTradeCreateAction implements WechatTradeAction<TradeCreateMod
 	}
 	
 	@Override
-	public Class<TradeCreateModel> getRequestType() {
-		return TradeCreateModel.class;
+	public Class<TradeCreateRequest> getRequestType() {
+		return TradeCreateRequest.class;
 	}
 
 	@Override
-	public Class<TradeCreateResponseModel> getResponseType() {
-		return TradeCreateResponseModel.class;
+	public Class<TradeCreateResponse> getResponseType() {
+		return TradeCreateResponse.class;
 	}
 }

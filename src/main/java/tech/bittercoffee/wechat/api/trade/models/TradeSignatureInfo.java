@@ -11,7 +11,7 @@ import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
  * @author BitterCoffee
  *
  */
-public abstract class TradeSignatureModel extends TradeAppModel {
+public abstract class TradeSignatureInfo extends TradeAppInfo {
 
 	private static final long serialVersionUID = -8209377529629240145L;
 
@@ -39,7 +39,7 @@ public abstract class TradeSignatureModel extends TradeAppModel {
 	@JacksonXmlCData
 	private String sign;
 
-	public TradeSignatureModel() {
+	public TradeSignatureInfo() {
 		this.nonceStr = randomStringGenerator.generate(32);
 	}
 }

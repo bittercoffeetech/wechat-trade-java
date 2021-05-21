@@ -13,24 +13,23 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
-import tech.bittercoffee.wechat.api.trade.enums.TradeStatusEnum;
 import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 
 /**
- * 订单查询返回
+ * 支付结果通知
  * 
  * @author BitterCoffee
  *
  */
-@JsonRootName("trade_query_response")
+@JsonRootName("trade_create_notify")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeQueryResponseModel extends TradeAppModel {
+public final class TradeCreateNotify extends TradeAppInfo {
 
 	private static final long serialVersionUID = -8310580381720323679L;
 
 	/**
-	 * 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。
+	 * <p>商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。</p>
 	 */
 	@ApiField(name = "out_trade_no")
 	@JsonProperty("out_trade_no")
@@ -147,29 +146,6 @@ public final class TradeQueryResponseModel extends TradeAppModel {
 	@JsonProperty("coupons")
 	private List<TradeCouponInfo> coupons;
 
-	/**
-	 * 设备号 自定义参数，可以为请求支付的终端设备号等
-	 */
-	@ApiField(name = "device_info")
-	@JsonProperty("device_info")
-	private String deviceInfo;
-
-	/**
-	 * 交易状态
-	 * 
-	 * @see TradeStatusEnum
-	 */
-	@ApiField(name = "trade_state")
-	@JsonProperty("trade_state")
-	private TradeStatusEnum tradeState;
-
-	/**
-	 * 交易状态描述 对当前查询订单状态的描述和下一步操作的指引
-	 */
-	@ApiField(name = "trade_state_desc")
-	@JsonProperty("trade_state_desc")
-	private String tradeStateDesc;
-
 	public String getTradeNo() {
 		return tradeNo;
 	}
@@ -232,18 +208,6 @@ public final class TradeQueryResponseModel extends TradeAppModel {
 
 	public List<TradeCouponInfo> getCoupons() {
 		return coupons;
-	}
-
-	public String getDeviceInfo() {
-		return deviceInfo;
-	}
-
-	public TradeStatusEnum getTradeState() {
-		return tradeState;
-	}
-
-	public String getTradeStateDesc() {
-		return tradeStateDesc;
 	}
 
 	@Override

@@ -24,12 +24,12 @@ import tech.bittercoffee.wechat.api.trade.enums.ResultStatusEnum;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class TradeResultModel implements Serializable {
+public final class TradeResult implements Serializable {
 
 	private static final long serialVersionUID = 8509282269114024065L;
 
 	@JsonCreator
-	public TradeResultModel(@JsonProperty("result_code") String resultCode, @JsonProperty("err_code") String errorCode,
+	public TradeResult(@JsonProperty("result_code") String resultCode, @JsonProperty("err_code") String errorCode,
 			@JsonProperty("err_code_des") String errorMessage) {
 		super();
 		this.resultCode = defaultIfNull(getEnum(ResultStatusEnum.class, resultCode),

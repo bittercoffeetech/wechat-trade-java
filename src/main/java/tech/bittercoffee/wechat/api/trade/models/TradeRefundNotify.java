@@ -24,7 +24,7 @@ import tech.bittercoffee.wechat.api.trade.enums.RefundStatusEnum;
 @JsonRootName("trade_refund_notify")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeRefundNotifyModel extends TradeAppModel {
+public final class TradeRefundNotify extends TradeAppInfo {
 
 	private static final long serialVersionUID = -8310580381720323679L;
 

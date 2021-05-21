@@ -17,7 +17,7 @@ import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class TradeCsvlModel extends TradeSignatureModel {
+public abstract class TradeSheetRequest extends TradeSignatureInfo {
 
 	private static final long serialVersionUID = -198191473007581123L;
 
@@ -37,7 +37,7 @@ public abstract class TradeCsvlModel extends TradeSignatureModel {
 	@JacksonXmlCData
 	protected TarTypeEnum tarType;
 
-	public TradeCsvlModel(LocalDate billDate, TarTypeEnum tarType) {
+	public TradeSheetRequest(LocalDate billDate, TarTypeEnum tarType) {
 		this.billDate = billDate;
 		this.tarType = tarType;
 	}

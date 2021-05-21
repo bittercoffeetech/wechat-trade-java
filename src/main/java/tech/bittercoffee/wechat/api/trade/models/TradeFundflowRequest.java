@@ -12,37 +12,56 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import tech.bittercoffee.wechat.api.trade.enums.BillTypeEnum;
+import tech.bittercoffee.wechat.api.trade.enums.AccountTypeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 
 /**
- * 下载成功交易账单请求
+ * 下载资金账单请求
  * 
  * @author BitterCoffee
  *
  */
-@JsonRootName("bill")
+@JsonRootName("fundflow")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeBillSuccessModel extends TradeCsvlModel {
+public final class TradeFundflowRequest extends TradeSheetRequest {
 
 	private static final long serialVersionUID = -198191473007581123L;
 	
-	public static TradeBillSuccessModel of(LocalDate billDate, boolean zip) {
-		return new TradeBillSuccessModel(billDate, zip ? TarTypeEnum.GZIP : null);
+	public static TradeFundflowRequest of(LocalDate billDate, boolean zip) {
+		return new TradeFundflowRequest(billDate, zip ? TarTypeEnum.GZIP : null);
 	}
 	
 	@JsonCreator
-	public TradeBillSuccessModel(@JsonProperty("bill_date") LocalDate billDate, @JsonProperty("tar_type") TarTypeEnum tarType) {
+	public TradeFundflowRequest(@JsonProperty("bill_date") LocalDate billDate, @JsonProperty("tar_type") TarTypeEnum tarType) {
 		super(billDate, tarType);
 	}
-
+	
 	/**
-	 * 账单类型
+	 * 资金账户类型
 	 */
-	@JsonProperty("bill_type")
+	@JsonProperty("account_type")
 	@JacksonXmlCData
-	private BillTypeEnum billType = BillTypeEnum.SUCCESS;
+	private AccountTypeEnum accountType;
+	
+	public TradeFundflowRequest basic() {
+		this.accountType = AccountTypeEnum.BASIC;
+		return this;
+	}
+	
+	public TradeFundflowRequest fees() {
+		this.accountType = AccountTypeEnum.FEES;
+		return this;
+	}
+	
+	public TradeFundflowRequest operation() {
+		this.accountType = AccountTypeEnum.OPERATION;
+		return this;
+	}
+
+	public AccountTypeEnum getAccountType() {
+		return accountType;
+	}
 
 	@Override
 	public String toString() {

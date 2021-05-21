@@ -1,7 +1,7 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponseModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponse;
 
 /**
  * 下载成功交易账单
@@ -9,16 +9,16 @@ import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponseModel;
  * @author BitterCoffee
  *
  */
-public class WechatTradeBillSuccessAction extends WechatTradeBillAction<TradeBillSuccessModel, TradeBillSuccessResponseModel> {
+public class WechatTradeBillSuccessAction extends WechatTradeBillAction<TradeBillSuccessRequest, TradeBillSuccessResponse> {
 
 	@Override
-	public Class<TradeBillSuccessModel> getRequestType() {
-		return TradeBillSuccessModel.class;
+	public Class<TradeBillSuccessRequest> getRequestType() {
+		return TradeBillSuccessRequest.class;
 	}
 
 	@Override
-	public Class<TradeBillSuccessResponseModel> getResponseType() {
-		return TradeBillSuccessResponseModel.class;
+	public Class<TradeBillSuccessResponse> getResponseType() {
+		return TradeBillSuccessResponse.class;
 	}
 
 }

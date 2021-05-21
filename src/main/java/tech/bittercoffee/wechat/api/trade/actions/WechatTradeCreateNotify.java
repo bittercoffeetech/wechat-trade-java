@@ -1,7 +1,7 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
 import tech.bittercoffee.wechat.api.trade.WechatTradeResponse;
-import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotifyModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotify;
 
 /**
  * 支付结果通知
@@ -9,11 +9,11 @@ import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotifyModel;
  * @author BitterCoffee
  *
  */
-public class WechatTradeCreateNotify implements WechatTradeResponse<TradeCreateNotifyModel> {
+public class WechatTradeCreateNotify implements WechatTradeResponse<TradeCreateNotify> {
 
 	@Override
-	public Class<TradeCreateNotifyModel> getResponseType() {
-		return TradeCreateNotifyModel.class;
+	public Class<TradeCreateNotify> getResponseType() {
+		return TradeCreateNotify.class;
 	}
 	
 }

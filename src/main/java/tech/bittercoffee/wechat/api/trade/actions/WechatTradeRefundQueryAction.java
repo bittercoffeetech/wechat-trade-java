@@ -1,8 +1,8 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
 import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponseModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponse;
 
 /**
  * 退款查询
@@ -10,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponseModel;
  * @author BitterCoffee
  *
  */
-public class WechatTradeRefundQueryAction implements WechatTradeAction<TradeRefundQueryModel, TradeRefundQueryResponseModel> {
+public class WechatTradeRefundQueryAction implements WechatTradeAction<TradeRefundQueryRequest, TradeRefundQueryResponse> {
 
 	@Override
 	public String url() {
@@ -18,13 +18,13 @@ public class WechatTradeRefundQueryAction implements WechatTradeAction<TradeRefu
 	}
 
 	@Override
-	public Class<TradeRefundQueryModel> getRequestType() {
-		return TradeRefundQueryModel.class;
+	public Class<TradeRefundQueryRequest> getRequestType() {
+		return TradeRefundQueryRequest.class;
 	}
 
 	@Override
-	public Class<TradeRefundQueryResponseModel> getResponseType() {
-		return TradeRefundQueryResponseModel.class;
+	public Class<TradeRefundQueryResponse> getResponseType() {
+		return TradeRefundQueryResponse.class;
 	}
 
 }

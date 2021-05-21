@@ -56,30 +56,30 @@ import tech.bittercoffee.wechat.api.trade.actions.WechatTradeRefundAction;
 import tech.bittercoffee.wechat.api.trade.actions.WechatTradeRefundNotify;
 import tech.bittercoffee.wechat.api.trade.actions.WechatTradeRefundQueryAction;
 import tech.bittercoffee.wechat.api.trade.enums.ErrorCodeEnum;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillAllModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillAllResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCloseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCreateModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotifyModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCreateResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCsvResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeQueryModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeQueryResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundNotifyModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundResponseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeResultModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeReturnModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillAllRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillAllResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeCloseRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeCreateRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotify;
+import tech.bittercoffee.wechat.api.trade.models.TradeCreateResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeSheetResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeFundflowRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeQueryRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeQueryResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundNotify;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeResult;
+import tech.bittercoffee.wechat.api.trade.models.TradeReturn;
+import tech.bittercoffee.wechat.api.trade.models.TradeSignatureInfo;
 
 /**
  * 微信支付客户端的默认实现
@@ -134,12 +134,12 @@ public final class WechatTradeClient {
 			throws WechatApiException, IOException {
 		TradeValues tvs = xmlMapper.readValue(new InputStreamReader(input, StandardCharsets.UTF_8), TradeValues.class);
 	
-		TradeReturnModel returnModel = xmlMapper.convertValue(tvs, TradeReturnModel.class);
+		TradeReturn returnModel = xmlMapper.convertValue(tvs, TradeReturn.class);
 		if (!returnModel.isSuccess()) {
 			throw new WechatApiException(returnModel.getCode(), returnModel.getMessage());
 		}
 	
-		TradeResultModel resultModel = xmlMapper.convertValue(tvs, TradeResultModel.class);
+		TradeResult resultModel = xmlMapper.convertValue(tvs, TradeResult.class);
 		if (response.hasResult() && !resultModel.isSuccess()) {
 			throw new WechatApiException(resultModel.getCode(), resultModel.getMessage());
 		}
@@ -167,9 +167,9 @@ public final class WechatTradeClient {
 	private <S> S parseCsvResponse(final WechatTradeResponse<S> response, final InputStream input) throws IOException {
 	
 		Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
-		TradeCsvResponseModel<?, ?> result;
+		TradeSheetResponse<?, ?> result;
 		try {
-			result = (TradeCsvResponseModel<?, ?>) invokeConstructor(response.getResponseType(),
+			result = (TradeSheetResponse<?, ?>) invokeConstructor(response.getResponseType(),
 					EMPTY_OBJECT_ARRAY);
 		} catch (ReflectiveOperationException roe) {
 			return null;
@@ -205,7 +205,7 @@ public final class WechatTradeClient {
 		return (S) result;
 	}
 
-	private <R extends TradeSignatureModel, S> S execute(WechatTradeAction<R, S> action, R model) throws WechatApiException {
+	private <R extends TradeSignatureInfo, S> S execute(WechatTradeAction<R, S> action, R model) throws WechatApiException {
 		
 		Supplier<CloseableHttpClient> createHttpClient = () -> {
 			CloseableHttpClient httpClient = null;
@@ -277,83 +277,83 @@ public final class WechatTradeClient {
 		}
 	}
 
-	public TradeCreateNotifyModel onCreateNotifier(InputStream xml) throws WechatApiException, IOException {
+	public TradeCreateNotify onCreateNotifier(InputStream xml) throws WechatApiException, IOException {
 		return parseXmlResponse(WECHAT_TRADE_CREATE_NOTIFY, xml);
 	}
 
-	public TradeRefundNotifyModel onRefundNotifier(InputStream xml) throws WechatApiException, IOException {
+	public TradeRefundNotify onRefundNotifier(InputStream xml) throws WechatApiException, IOException {
 		return parseXmlResponse(WECHAT_TRADE_REFUND_NOTIFY, xml);
 	}
 
-	public TradeCreateResponseModel createTrade(final TradeCreateModel model) throws WechatApiException {
+	public TradeCreateResponse createTrade(final TradeCreateRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_CREATE_ACTION, model);
 	}
 
-	public TradeQueryResponseModel queryTrade(TradeQueryModel model) throws WechatApiException {
+	public TradeQueryResponse queryTrade(TradeQueryRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_QUERY_ACTION, model);
 	}
 	
-	public TradeQueryResponseModel queryTrade(String outTradeNo) throws WechatApiException {
-		return execute(WECHAT_TRADE_QUERY_ACTION, TradeQueryModel.withTradeNo(outTradeNo));
+	public TradeQueryResponse queryTrade(String outTradeNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_QUERY_ACTION, TradeQueryRequest.withTradeNo(outTradeNo));
 	}
 
-	public TradeCloseResponseModel closeTrade(TradeCloseModel model) throws WechatApiException {
+	public TradeCloseResponse closeTrade(TradeCloseRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_CLOSE_ACTION, model);
 	}
 	
-	public TradeCloseResponseModel closeTrade(String outTradeNo) throws WechatApiException {
-		return execute(WECHAT_TRADE_CLOSE_ACTION, TradeCloseModel.withTradeNo(outTradeNo));
+	public TradeCloseResponse closeTrade(String outTradeNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_CLOSE_ACTION, TradeCloseRequest.withTradeNo(outTradeNo));
 	}
 
-	public TradeRefundResponseModel createRefund(TradeRefundModel model) throws WechatApiException {
+	public TradeRefundResponse createRefund(TradeRefundRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_REFUND_ACTION, model);
 	}
 	
-	public TradeRefundResponseModel createRefund(String tradeNo, long totalFee, long refundFeel) throws WechatApiException {
-		return execute(WECHAT_TRADE_REFUND_ACTION, TradeRefundModel.withTradeNo(tradeNo, totalFee, refundFeel));
+	public TradeRefundResponse createRefund(String tradeNo, long totalFee, long refundFeel) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_ACTION, TradeRefundRequest.withTradeNo(tradeNo, totalFee, refundFeel));
 	}
 
-	public TradeRefundQueryResponseModel queryRefund(TradeRefundQueryModel model) throws WechatApiException {
+	public TradeRefundQueryResponse queryRefund(TradeRefundQueryRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, model);
 	}
 	
-	public TradeRefundQueryResponseModel queryRefund(String outTradeNo) throws WechatApiException {
-		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, TradeRefundQueryModel.withTradeNo(outTradeNo));
+	public TradeRefundQueryResponse queryRefund(String outTradeNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, TradeRefundQueryRequest.withTradeNo(outTradeNo));
 	}
 	
-	public TradeRefundQueryResponseModel queryRefund(String outTradeNo, String refundNo) throws WechatApiException {
-		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, TradeRefundQueryModel.withTradeNo(outTradeNo).refundNo(refundNo));
+	public TradeRefundQueryResponse queryRefund(String outTradeNo, String refundNo) throws WechatApiException {
+		return execute(WECHAT_TRADE_REFUND_QUERY_ACTION, TradeRefundQueryRequest.withTradeNo(outTradeNo).refundNo(refundNo));
 	}
 
-	public TradeBillAllResponseModel downloadBillAll(TradeBillAllModel model) throws WechatApiException {
+	public TradeBillAllResponse downloadBillAll(TradeBillAllRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_BILL_ALL_ACTION, model);
 	}
 	
-	public TradeBillAllResponseModel downloadBillAll(LocalDate billDate, boolean zip) throws WechatApiException {
-		return execute(WECHAT_TRADE_BILL_ALL_ACTION, TradeBillAllModel.of(billDate, zip));
+	public TradeBillAllResponse downloadBillAll(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_ALL_ACTION, TradeBillAllRequest.of(billDate, zip));
 	}
 
-	public TradeBillSuccessResponseModel downloadBillSuccess(TradeBillSuccessModel model) throws WechatApiException {
+	public TradeBillSuccessResponse downloadBillSuccess(TradeBillSuccessRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_BILL_SUCCESS_ACTION, model);
 	}
 	
-	public TradeBillSuccessResponseModel downloadBillSuccess(LocalDate billDate, boolean zip) throws WechatApiException {
-		return execute(WECHAT_TRADE_BILL_SUCCESS_ACTION, TradeBillSuccessModel.of(billDate, zip));
+	public TradeBillSuccessResponse downloadBillSuccess(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_SUCCESS_ACTION, TradeBillSuccessRequest.of(billDate, zip));
 	}
 
-	public TradeBillRefundResponseModel downloadBillRefund(TradeBillRefundModel model) throws WechatApiException {
+	public TradeBillRefundResponse downloadBillRefund(TradeBillRefundRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_BILL_REFUND_ACTION, model);
 	}
 	
-	public TradeBillRefundResponseModel downloadBillRefund(LocalDate billDate, boolean zip) throws WechatApiException {
-		return execute(WECHAT_TRADE_BILL_REFUND_ACTION, TradeBillRefundModel.of(billDate, zip));
+	public TradeBillRefundResponse downloadBillRefund(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_BILL_REFUND_ACTION, TradeBillRefundRequest.of(billDate, zip));
 	}
 
-	public TradeFundflowResponseModel downloadFundflow(TradeFundflowModel model) throws WechatApiException {
+	public TradeFundflowResponse downloadFundflow(TradeFundflowRequest model) throws WechatApiException {
 		return execute(WECHAT_TRADE_FUNDFLOW_ACTION, model);
 	}
 	
-	public TradeFundflowResponseModel downloadFundflow(LocalDate billDate, boolean zip) throws WechatApiException {
-		return execute(WECHAT_TRADE_FUNDFLOW_ACTION, TradeFundflowModel.of(billDate, zip));
+	public TradeFundflowResponse downloadFundflow(LocalDate billDate, boolean zip) throws WechatApiException {
+		return execute(WECHAT_TRADE_FUNDFLOW_ACTION, TradeFundflowRequest.of(billDate, zip));
 	}
 }

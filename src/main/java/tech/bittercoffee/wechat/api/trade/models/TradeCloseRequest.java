@@ -10,27 +10,27 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
- * 查询订单请求
+ * 交易关闭请求
  * 
  * @author BitterCoffee
  *
  */
-@JsonRootName("trade_query")
+@JsonRootName("trade_close")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeQueryModel extends TradeSignatureModel {
+public final class TradeCloseRequest extends TradeSignatureInfo {
 
 	private static final long serialVersionUID = -198191473007581123L;
 	
-	public static TradeQueryModel withTradeNo(String tradeNo) {
-		TradeQueryModel model = new TradeQueryModel();
+	public static TradeCloseRequest withTradeNo(String tradeNo) {
+		TradeCloseRequest model = new TradeCloseRequest();
 		model.tradeNo = tradeNo;
 		
 		return model;
 	}
 	
-	public static TradeQueryModel withTransactionId(String transactionId) {
-		TradeQueryModel model = new TradeQueryModel();
+	public static TradeCloseRequest withTransactionId(String transactionId) {
+		TradeCloseRequest model = new TradeCloseRequest();
 		model.transactionId = transactionId;
 		
 		return model;

@@ -1,6 +1,6 @@
 package tech.bittercoffee.wechat.api.trade;
 
-import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeSignatureInfo;
 
 /**
  * 微信接口封装
@@ -10,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
  * @param <R> 请求对象类型
  * @param <S> 返回对象类型
  */
-public interface WechatTradeAction<R extends TradeSignatureModel, S> extends WechatTradeRequest<R>, WechatTradeResponse<S> {
+public interface WechatTradeAction<R extends TradeSignatureInfo, S> extends WechatTradeRequest<R>, WechatTradeResponse<S> {
 	
 	
 }

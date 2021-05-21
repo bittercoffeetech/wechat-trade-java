@@ -1,7 +1,7 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
 import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeSignatureInfo;
 
 /**
  * 下载交易账单
@@ -9,7 +9,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeSignatureModel;
  * @author BitterCoffee
  *
  */
-public abstract class WechatTradeBillAction<R extends TradeSignatureModel, S> implements WechatTradeAction<R, S> {
+public abstract class WechatTradeBillAction<R extends TradeSignatureInfo, S> implements WechatTradeAction<R, S> {
 	
 	@Override
 	public String url() {

@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
  * @param <D> 明细对象类型
  */
 @JsonRootName("sheet")
-public abstract class TradeCsvResponseModel<M, D> implements Serializable {
+public abstract class TradeSheetResponse<M, D> implements Serializable {
 
 	private static final long serialVersionUID = -2944743648771800968L;
 

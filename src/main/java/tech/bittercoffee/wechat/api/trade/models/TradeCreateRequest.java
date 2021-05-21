@@ -25,12 +25,12 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 @JsonRootName("trade_create")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeCreateModel extends TradeSignatureModel {
+public final class TradeCreateRequest extends TradeSignatureInfo {
 
 	private static final long serialVersionUID = 6260044783248850548L;
 
-	public static TradeCreateModel newOrder(TradeTypeEnum tradeType, long totalFee, String body) {
-		TradeCreateModel model = new TradeCreateModel();
+	public static TradeCreateRequest newOrder(TradeTypeEnum tradeType, long totalFee, String body) {
+		TradeCreateRequest model = new TradeCreateRequest();
 		model.tradeType = tradeType;
 		model.totalFee = totalFee;
 		model.body = body;
@@ -177,87 +177,87 @@ public final class TradeCreateModel extends TradeSignatureModel {
 	@JsonDeserialize(using = TradeGoodsDetailInfo.GoodsDetailInfoDeserializer.class)
 	private TradeGoodsDetailInfo detail;
 
-	public TradeCreateModel feeType(FeeTypeEnum feeType) {
+	public TradeCreateRequest feeType(FeeTypeEnum feeType) {
 		this.feeType = feeType;
 		return this;
 	}
 
-	public TradeCreateModel totalFee(long totalFee) {
+	public TradeCreateRequest totalFee(long totalFee) {
 		this.totalFee = totalFee;
 		return this;
 	}
 
-	public TradeCreateModel deviceInfo(String deviceInfo) {
+	public TradeCreateRequest deviceInfo(String deviceInfo) {
 		this.deviceInfo = deviceInfo;
 		return this;
 	}
 
-	public TradeCreateModel body(String body) {
+	public TradeCreateRequest body(String body) {
 		this.body = body;
 		return this;
 	}
 
-	public TradeCreateModel attach(String attach) {
+	public TradeCreateRequest attach(String attach) {
 		this.attach = attach;
 		return this;
 	}
 
-	public TradeCreateModel spbillCreateIp(String spbillCreateIp) {
+	public TradeCreateRequest spbillCreateIp(String spbillCreateIp) {
 		this.spbillCreateIp = spbillCreateIp;
 		return this;
 	}
 
-	public TradeCreateModel timeStart(LocalDateTime timeStart) {
+	public TradeCreateRequest timeStart(LocalDateTime timeStart) {
 		this.timeStart = timeStart;
 		return this;
 	}
 
-	public TradeCreateModel timeExpire(LocalDateTime timeExpire) {
+	public TradeCreateRequest timeExpire(LocalDateTime timeExpire) {
 		this.timeExpire = timeExpire;
 		return this;
 	}
 
-	public TradeCreateModel goodsTag(String goodsTag) {
+	public TradeCreateRequest goodsTag(String goodsTag) {
 		this.goodsTag = goodsTag;
 		return this;
 	}
 
-	public TradeCreateModel notifyUrl(String notifyUrl) {
+	public TradeCreateRequest notifyUrl(String notifyUrl) {
 		this.notifyUrl = notifyUrl;
 		return this;
 	}
 
-	public TradeCreateModel tradeType(TradeTypeEnum tradeType) {
+	public TradeCreateRequest tradeType(TradeTypeEnum tradeType) {
 		this.tradeType = tradeType;
 		return this;
 	}
 
-	public TradeCreateModel productId(String productId) {
+	public TradeCreateRequest productId(String productId) {
 		this.productId = productId;
 		return this;
 	}
 
-	public TradeCreateModel limitPay(String limitPay) {
+	public TradeCreateRequest limitPay(String limitPay) {
 		this.limitPay = limitPay;
 		return this;
 	}
 
-	public TradeCreateModel openId(String openId) {
+	public TradeCreateRequest openId(String openId) {
 		this.openId = openId;
 		return this;
 	}
 
-	public TradeCreateModel receipt(Boolean receipt) {
+	public TradeCreateRequest receipt(Boolean receipt) {
 		this.receipt = receipt;
 		return this;
 	}
 
-	public TradeCreateModel sceneInfo(TradeSceneInfo sceneInfo) {
+	public TradeCreateRequest sceneInfo(TradeSceneInfo sceneInfo) {
 		this.sceneInfo = sceneInfo;
 		return this;
 	}
 
-	public TradeCreateModel detail(TradeGoodsDetailInfo detail) {
+	public TradeCreateRequest detail(TradeGoodsDetailInfo detail) {
 		this.detail = detail;
 		return this;
 	}

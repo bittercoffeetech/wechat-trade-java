@@ -21,12 +21,12 @@ import tech.bittercoffee.wechat.api.trade.enums.RefundAccountEnum;
 @JsonRootName("trade_refund")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeRefundModel extends TradeSignatureModel {
+public final class TradeRefundRequest extends TradeSignatureInfo {
 
 	private static final long serialVersionUID = -888492915591862535L;
 	
-	public static TradeRefundModel withTradeNo(String tradeNo, long totalFee, long refundFee) {
-		TradeRefundModel model = new TradeRefundModel();
+	public static TradeRefundRequest withTradeNo(String tradeNo, long totalFee, long refundFee) {
+		TradeRefundRequest model = new TradeRefundRequest();
 		model.tradeNo = tradeNo;
 		model.totalFee = totalFee;
 		model.refundFee = refundFee;
@@ -34,8 +34,8 @@ public final class TradeRefundModel extends TradeSignatureModel {
 		return model;
 	}
 	
-	public static TradeRefundModel withTransactionId(String transactionId, long totalFee, long refundFee) {
-		TradeRefundModel model = new TradeRefundModel();
+	public static TradeRefundRequest withTransactionId(String transactionId, long totalFee, long refundFee) {
+		TradeRefundRequest model = new TradeRefundRequest();
 		model.transactionId = transactionId;
 		model.totalFee = totalFee;
 		model.refundFee = refundFee;
@@ -43,7 +43,7 @@ public final class TradeRefundModel extends TradeSignatureModel {
 		return model;
 	}
 
-	public TradeRefundModel() {
+	public TradeRefundRequest() {
 		this.refundNo = randomStringGenerator.generate(32);
 	}
 
@@ -148,22 +148,22 @@ public final class TradeRefundModel extends TradeSignatureModel {
 		return notifyUrl;
 	}
 
-	public TradeRefundModel feeType(FeeTypeEnum feeType) {
+	public TradeRefundRequest feeType(FeeTypeEnum feeType) {
 		this.refundFeeType = feeType;
 		return this;
 	}
 
-	public TradeRefundModel account(RefundAccountEnum account) {
+	public TradeRefundRequest account(RefundAccountEnum account) {
 		this.refundAccount = account;
 		return this;
 	}
 
-	public TradeRefundModel desc(String desc) {
+	public TradeRefundRequest desc(String desc) {
 		this.refundDesc = desc;
 		return this;
 	}
 
-	public TradeRefundModel notifyUrl(String notifyUrl) {
+	public TradeRefundRequest notifyUrl(String notifyUrl) {
 		this.notifyUrl = notifyUrl;
 		return this;
 	}

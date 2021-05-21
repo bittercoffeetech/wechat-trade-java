@@ -1,7 +1,7 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
 import tech.bittercoffee.wechat.api.trade.WechatTradeResponse;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundNotifyModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundNotify;
 
 /**
  * 退款结果通知
@@ -9,7 +9,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeRefundNotifyModel;
  * @author BitterCoffee
  *
  */
-public class WechatTradeRefundNotify implements WechatTradeResponse<TradeRefundNotifyModel> {
+public class WechatTradeRefundNotify implements WechatTradeResponse<TradeRefundNotify> {
 
 	@Override
 	public String encrypted() {
@@ -32,7 +32,7 @@ public class WechatTradeRefundNotify implements WechatTradeResponse<TradeRefundN
 	}
 
 	@Override
-	public Class<TradeRefundNotifyModel> getResponseType() {
-		return TradeRefundNotifyModel.class;
+	public Class<TradeRefundNotify> getResponseType() {
+		return TradeRefundNotify.class;
 	}
 }

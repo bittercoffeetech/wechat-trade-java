@@ -18,19 +18,19 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JsonRootName("trade_refund_query")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeRefundQueryModel extends TradeSignatureModel {
+public final class TradeRefundQueryRequest extends TradeSignatureInfo {
 
 	private static final long serialVersionUID = 8909748011353635694L;
 	
-	public static TradeRefundQueryModel withTradeNo(String tradeNo) {
-		TradeRefundQueryModel model = new TradeRefundQueryModel();
+	public static TradeRefundQueryRequest withTradeNo(String tradeNo) {
+		TradeRefundQueryRequest model = new TradeRefundQueryRequest();
 		model.tradeNo = tradeNo;
 		
 		return model;
 	}
 	
-	public static TradeRefundQueryModel withTransactionId(String transactionId) {
-		TradeRefundQueryModel model = new TradeRefundQueryModel();
+	public static TradeRefundQueryRequest withTransactionId(String transactionId) {
+		TradeRefundQueryRequest model = new TradeRefundQueryRequest();
 		model.transactionId = transactionId;
 		
 		return model;
@@ -71,17 +71,17 @@ public final class TradeRefundQueryModel extends TradeSignatureModel {
 	@JacksonXmlCData
 	private Integer offset;
 
-	public TradeRefundQueryModel refundNo(String refundNo) {
+	public TradeRefundQueryRequest refundNo(String refundNo) {
 		this.refundNo = refundNo;
 		return this;
 	}
 
-	public TradeRefundQueryModel refundId(String refundId) {
+	public TradeRefundQueryRequest refundId(String refundId) {
 		this.refundId = refundId;
 		return this;
 	}
 
-	public TradeRefundQueryModel offset(Integer offset) {
+	public TradeRefundQueryRequest offset(Integer offset) {
 		this.offset = offset;
 		return this;
 	}

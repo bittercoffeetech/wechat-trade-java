@@ -1,8 +1,8 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
 import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeCloseModel;
-import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponseModel;
+import tech.bittercoffee.wechat.api.trade.models.TradeCloseRequest;
+import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponse;
 
 /**
  * 关闭订单
@@ -10,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponseModel;
  * @author BitterCoffee
  *
  */
-public class WechatTradeCloseAction implements WechatTradeAction<TradeCloseModel, TradeCloseResponseModel> {
+public class WechatTradeCloseAction implements WechatTradeAction<TradeCloseRequest, TradeCloseResponse> {
 
 	@Override
 	public String url() {
@@ -23,13 +23,13 @@ public class WechatTradeCloseAction implements WechatTradeAction<TradeCloseModel
 	}
 
 	@Override
-	public Class<TradeCloseModel> getRequestType() {
-		return TradeCloseModel.class;
+	public Class<TradeCloseRequest> getRequestType() {
+		return TradeCloseRequest.class;
 	}
 
 	@Override
-	public Class<TradeCloseResponseModel> getResponseType() {
-		return TradeCloseResponseModel.class;
+	public Class<TradeCloseResponse> getResponseType() {
+		return TradeCloseResponse.class;
 	}
 	
 }

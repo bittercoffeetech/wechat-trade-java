@@ -16,7 +16,7 @@ import tech.bittercoffee.wechat.api.trade.enums.BillTypeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 
 /**
- * 下载退款交易账单请求
+ * 下载成功交易账单请求
  * 
  * @author BitterCoffee
  *
@@ -24,16 +24,16 @@ import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 @JsonRootName("bill")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeBillRefundModel extends TradeCsvlModel {
+public final class TradeBillSuccessRequest extends TradeSheetRequest {
 
 	private static final long serialVersionUID = -198191473007581123L;
 	
-	public static TradeBillRefundModel of(LocalDate billDate, boolean zip) {
-		return new TradeBillRefundModel(billDate, zip ? TarTypeEnum.GZIP : null);
+	public static TradeBillSuccessRequest of(LocalDate billDate, boolean zip) {
+		return new TradeBillSuccessRequest(billDate, zip ? TarTypeEnum.GZIP : null);
 	}
 	
 	@JsonCreator
-	public TradeBillRefundModel(@JsonProperty("bill_date") LocalDate billDate, @JsonProperty("tar_type") TarTypeEnum tarType) {
+	public TradeBillSuccessRequest(@JsonProperty("bill_date") LocalDate billDate, @JsonProperty("tar_type") TarTypeEnum tarType) {
 		super(billDate, tarType);
 	}
 
@@ -42,7 +42,7 @@ public final class TradeBillRefundModel extends TradeCsvlModel {
 	 */
 	@JsonProperty("bill_type")
 	@JacksonXmlCData
-	private BillTypeEnum billType = BillTypeEnum.REFUND;
+	private BillTypeEnum billType = BillTypeEnum.SUCCESS;
 
 	@Override
 	public String toString() {

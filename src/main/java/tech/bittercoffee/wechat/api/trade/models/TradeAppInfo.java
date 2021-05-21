@@ -13,7 +13,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
  * @author BitterCoffee
  *
  */
-public abstract class TradeAppModel implements Serializable {
+public abstract class TradeAppInfo implements Serializable {
 
 	private static final long serialVersionUID = -1334294208291195993L;
 	protected static final RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder()

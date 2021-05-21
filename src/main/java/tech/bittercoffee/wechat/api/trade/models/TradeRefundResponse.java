@@ -8,21 +8,20 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
 
 /**
- * 退款查询返回
+ * 退款请求返回
  * 
  * @author BitterCoffee
  *
  */
-@JsonRootName("trade_refund_query_response")
+@JsonRootName("trade_refund_response")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeRefundQueryResponseModel extends TradeAppModel {
+public final class TradeRefundResponse extends TradeAppInfo {
 
 	private static final long serialVersionUID = -8310580381720323679L;
 
@@ -76,26 +75,61 @@ public final class TradeRefundQueryResponseModel extends TradeAppModel {
 	private FeeTypeEnum cashFeeType;
 
 	/**
-	 * 退款笔数
+	 * 商户退款单号 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。
 	 */
-	@ApiField(name = "refund_count")
-	@JsonProperty("refund_count")
-	private long refundCount;
+	@ApiField(name = "out_refund_no")
+	@JsonProperty("out_refund_no")
+	private String refundNo;
 
 	/**
-	 * 退款笔数
+	 * 微信退款单号 微信生成的退款单号，在申请退款接口有返回
+	 */
+	@ApiField(name = "refund_id")
+	@JsonProperty("refund_id")
+	private String refundId;
+
+	/**
+	 * 退款金额 退款总金额，订单总金额，单位为分，只能为整数
 	 */
 	@ApiField(name = "refund_fee")
 	@JsonProperty("refund_fee")
 	private long refundFee;
 
 	/**
-	 * 退款详情
+	 * 现金退款金额 现金退款金额，单位为分，只能为整数
 	 */
-	@ApiField(name = "refund", subType = TradeRefundInfo.class, subName = "refund", countName = "refund_count")
-	@JsonProperty("refund")
-	@JacksonXmlElementWrapper(localName = "refund", useWrapping = false)
-	private List<TradeRefundInfo> refunds;
+	@ApiField(name = "cash_refund_fee")
+	@JsonProperty("cash_refund_fee")
+	private Long cashRefundFee;
+
+	/**
+	 * 应结退款金额 去掉非充值代金券退款金额后的退款金额，退款金额=申请退款金额-非充值代金券退款金额，退款金额&lt;=申请退款金额
+	 */
+	@ApiField(name = "settlement_refund_fee")
+	@JsonProperty("settlement_refund_fee")
+	private long settlementRefundFee;
+
+	/**
+	 * 代金券使用数量
+	 */
+	@ApiField(name = "coupon_refund_count")
+	@JsonProperty("coupon_refund_count")
+	private int couponCount;
+
+	/**
+	 * 代金券金额 “代金券”金额&lt;=订单金额，订单金额-“代金券”金额=现金支付金额
+	 */
+	@ApiField(name = "coupon_refund_fee")
+	@JsonProperty("coupon_refund_fee")
+	private long couponFee;
+
+	/**
+	 * 代金券
+	 * 
+	 * @see TradeRefundCouponInfo
+	 */
+	@ApiField(name = "coupons", subType = TradeRefundCouponInfo.class, subName = "coupon", countName = "coupon_refund_count")
+	private List<TradeRefundCouponInfo> coupons;
 
 	public String getTradeNo() {
 		return tradeNo;
@@ -125,16 +159,36 @@ public final class TradeRefundQueryResponseModel extends TradeAppModel {
 		return cashFeeType;
 	}
 
-	public long getRefundCount() {
-		return refundCount;
+	public String getRefundNo() {
+		return refundNo;
 	}
 
-	public List<TradeRefundInfo> getRefunds() {
-		return refunds;
+	public String getRefundId() {
+		return refundId;
 	}
 
 	public long getRefundFee() {
 		return refundFee;
+	}
+
+	public Long getCashRefundFee() {
+		return cashRefundFee;
+	}
+
+	public long getSettlementRefundFee() {
+		return settlementRefundFee;
+	}
+
+	public int getCouponCount() {
+		return couponCount;
+	}
+
+	public long getCouponFee() {
+		return couponFee;
+	}
+
+	public List<TradeRefundCouponInfo> getCoupons() {
+		return coupons;
 	}
 
 	@Override
