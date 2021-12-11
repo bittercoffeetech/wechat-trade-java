@@ -1,27 +1,17 @@
 package tech.bittercoffee.wechat.api.trade;
 
-import static org.apache.commons.beanutils.ConstructorUtils.invokeConstructor;
-import static org.apache.commons.lang3.ArrayUtils.EMPTY_OBJECT_ARRAY;
-import static org.apache.commons.lang3.RegExUtils.removeAll;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.commons.io.LineIterator;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -35,14 +25,6 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.ssl.SSLContexts;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvParser;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import tech.bittercoffee.wechat.api.trade.actions.WechatTradeBillAllAction;
 import tech.bittercoffee.wechat.api.trade.actions.WechatTradeBillRefundAction;
@@ -64,18 +46,17 @@ import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeBillSuccessResponse;
 import tech.bittercoffee.wechat.api.trade.models.TradeCloseRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponse;
-import tech.bittercoffee.wechat.api.trade.models.TradeCreateRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeCreateNotify;
+import tech.bittercoffee.wechat.api.trade.models.TradeCreateRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeCreateResponse;
-import tech.bittercoffee.wechat.api.trade.models.TradeSheetResponse;
 import tech.bittercoffee.wechat.api.trade.models.TradeFundflowRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponse;
 import tech.bittercoffee.wechat.api.trade.models.TradeQueryRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeQueryResponse;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeRefundNotify;
 import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponse;
+import tech.bittercoffee.wechat.api.trade.models.TradeRefundRequest;
 import tech.bittercoffee.wechat.api.trade.models.TradeRefundResponse;
 import tech.bittercoffee.wechat.api.trade.models.TradeResult;
 import tech.bittercoffee.wechat.api.trade.models.TradeReturn;
@@ -100,14 +81,6 @@ public final class WechatTradeClient {
 	private static final WechatTradeFundflowAction WECHAT_TRADE_FUNDFLOW_ACTION = new WechatTradeFundflowAction();
 	private static final WechatTradeCreateNotify WECHAT_TRADE_CREATE_NOTIFY = new WechatTradeCreateNotify();
 	private static final WechatTradeRefundNotify WECHAT_TRADE_REFUND_NOTIFY = new WechatTradeRefundNotify();
-	private static final XmlMapper xmlMapper = new XmlMapper();
-	private static final CsvMapper csvMapper = new CsvMapper();
-	static {
-		xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-		xmlMapper.setSerializationInclusion(Include.NON_NULL);
-		csvMapper.enable(CsvParser.Feature.TRIM_SPACES);
-		csvMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-	}
 
 	private String appId;
 	private String mchId;
@@ -129,80 +102,37 @@ public final class WechatTradeClient {
 		this.apiCert = apiCert;
 	}
 
-	@SuppressWarnings("unchecked")
 	private <S> S parseXmlResponse(final WechatTradeResponse<S> response, final InputStream input)
 			throws WechatApiException, IOException {
-		TradeValues tvs = xmlMapper.readValue(new InputStreamReader(input, StandardCharsets.UTF_8), TradeValues.class);
+		TradeXmlData txd = TradeXmlData.fromXml(input);
 	
-		TradeReturn returnModel = xmlMapper.convertValue(tvs, TradeReturn.class);
+		TradeReturn returnModel = txd.toObject(TradeReturn.class);
 		if (!returnModel.isSuccess()) {
 			throw new WechatApiException(returnModel.getCode(), returnModel.getMessage());
 		}
 	
-		TradeResult resultModel = xmlMapper.convertValue(tvs, TradeResult.class);
+		TradeResult resultModel = txd.toObject(TradeResult.class);
 		if (response.hasResult() && !resultModel.isSuccess()) {
 			throw new WechatApiException(resultModel.getCode(), resultModel.getMessage());
 		}
 	
-		if (response.hasSigned() && !tvs.hasValidSign.test(response.responseSignType(), mchKey)) {
+		if (response.hasSigned() && !txd.hasValidSign(response.responseSignType(), mchKey)) {
 			throw new WechatApiException(ErrorCodeEnum.SIGNERROR);
 		}
 	
 		if (isNotEmpty(response.encrypted())) {
-			String dec = tvs.decrypt.apply(response.encrypted(), mchKey);
-			tvs.putAll(xmlMapper.readValue(dec, Map.class));
-			tvs.remove(response.encrypted());
+			txd.decrypt(response.encrypted(), mchKey);
 		}
 	
 		if (response.hasHierarchy()) {
-			TradeValues ntvs = tvs.hierarchy.apply(response.getResponseType());
-			tvs.clear();
-			tvs.putAll(ntvs);
+			txd.hierarchy(response.getResponseType());
 		}
 	
-		return xmlMapper.convertValue(tvs, response.getResponseType());
+		return txd.toObject(response.getResponseType());
 	}
 
-	@SuppressWarnings({ "unchecked" })
 	private <S> S parseCsvResponse(final WechatTradeResponse<S> response, final InputStream input) throws IOException {
-	
-		Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
-		TradeSheetResponse<?, ?> result;
-		try {
-			result = (TradeSheetResponse<?, ?>) invokeConstructor(response.getResponseType(),
-					EMPTY_OBJECT_ARRAY);
-		} catch (ReflectiveOperationException roe) {
-			return null;
-		}
-	
-		try (LineIterator reader = new LineIterator(new InputStreamReader(input, StandardCharsets.UTF_8))) {
-			AtomicBoolean isSummary = new AtomicBoolean(false);
-	
-			reader.next(); // Skip First Title
-			reader.forEachRemaining(lineText -> {
-				lineText = removeAll(lineText, "(`|\\r|\\n)");
-				boolean isTitle = isChineseWord.test(lineText.substring(0, 1));
-	
-				if (!isSummary.get()) {
-					isSummary.set(isTitle);
-				}
-				if (!isTitle) {
-					try {
-						if (isSummary.get()) {
-							result.setSummary(csvMapper.readerFor(result.getSummaryType())
-									.with(csvMapper.schemaFor(result.getSummaryType())).readValue(lineText));
-						} else {
-							result.getRecords().add(csvMapper.readerFor(result.getRecordType())
-									.with(csvMapper.schemaFor(result.getRecordType())).readValue(lineText));
-						}
-					} catch (JsonProcessingException e) {
-						// Ignore
-					}
-				}
-			});
-		}
-	
-		return (S) result;
+		return TradeCsvData.fromStream(response.getResponseType(), input);
 	}
 
 	private <R extends TradeSignatureInfo, S> S execute(WechatTradeAction<R, S> action, R model) throws WechatApiException {
@@ -231,18 +161,11 @@ public final class WechatTradeClient {
 		};
 		
 		Supplier<String> toRequestBody = () -> {
-			TradeValues tv = xmlMapper.convertValue(model, TradeValues.class);
+			TradeXmlData tv = TradeXmlData.fromObject(model);
 			tv.put("appid", appId);
 			tv.put("mch_id", mchId);
 			tv.put("sign_type", action.requestSignType());
-			tv.put("sign", tv.getSign.apply(action.requestSignType(), mchKey));
-			R signed = xmlMapper.convertValue(tv, action.getRequestType());
-
-			try {
-				return xmlMapper.writer().withRootName("xml").writeValueAsString(signed);
-			} catch (JsonProcessingException e) {
-				return "<xml/>";
-			}
+			return tv.toXml(action.getRequestType(), action.requestSignType(), mchKey);
 		};
 		
 		try (CloseableHttpClient httpClient = createHttpClient.get()) {
