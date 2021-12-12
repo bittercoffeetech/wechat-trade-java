@@ -21,13 +21,16 @@ import com.fasterxml.jackson.dataformat.csv.CsvParser;
 
 import tech.bittercoffee.wechat.api.trade.models.TradeSheetResponse;
 
-public class TradeCsvData {
+public final class TradeCsvData {
+	
+	private static final CsvMapper csvMapper = new CsvMapper();
+	static {
+		csvMapper.enable(CsvParser.Feature.TRIM_SPACES);
+		csvMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static <S> S fromStream(Class<S> klass, final InputStream input) throws IllegalArgumentException, IOException {
-		final CsvMapper csvMapper = new CsvMapper();
-		csvMapper.enable(CsvParser.Feature.TRIM_SPACES);
-		csvMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 		Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
 		TradeSheetResponse<?, ?> result;
 		try {
