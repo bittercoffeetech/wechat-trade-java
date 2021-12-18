@@ -1,6 +1,7 @@
-package tech.bittercoffee.wechat.api.trade;
+package tech.bittercoffee.wechat.api.trade.actions;
 
 import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
+import tech.bittercoffee.wechat.api.trade.models.response.HierarchyConfig;
 
 /**
  * 接口返回内容定义
@@ -9,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
  *
  * @param <S> 返回对象类型
  */
-public interface WechatTradeResponse<S> {
+public interface TradeResponse<S> {
 
 	/**
 	 * 获取返回对象的类型信息
@@ -42,19 +43,19 @@ public interface WechatTradeResponse<S> {
 	/**
 	 * @return 是否包含嵌套对象
 	 */
-	default boolean hasHierarchy() {
-		return true;
+	default HierarchyConfig[] hierarchy() {
+		return new HierarchyConfig[] {};
 	}
-	
+
 	/**
 	 * @return 签名算法
 	 */
 	default SignTypeEnum responseSignType() {
 		return SignTypeEnum.MD5;
 	}
-	
+
 	default boolean isStreaming() {
 		return false;
 	}
-	
+
 }

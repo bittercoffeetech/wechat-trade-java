@@ -1,4 +1,6 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.request;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import tech.bittercoffee.wechat.api.trade.UidGenerator;
 import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.RefundAccountEnum;
 
@@ -21,30 +24,30 @@ import tech.bittercoffee.wechat.api.trade.enums.RefundAccountEnum;
 @JsonRootName("trade_refund")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeRefundRequest extends TradeSignatureInfo {
+public final class TradeRefundRequest implements Serializable {
 
 	private static final long serialVersionUID = -888492915591862535L;
-	
+
 	public static TradeRefundRequest withTradeNo(String tradeNo, long totalFee, long refundFee) {
 		TradeRefundRequest model = new TradeRefundRequest();
 		model.tradeNo = tradeNo;
 		model.totalFee = totalFee;
 		model.refundFee = refundFee;
-		
+
 		return model;
 	}
-	
+
 	public static TradeRefundRequest withTransactionId(String transactionId, long totalFee, long refundFee) {
 		TradeRefundRequest model = new TradeRefundRequest();
 		model.transactionId = transactionId;
 		model.totalFee = totalFee;
 		model.refundFee = refundFee;
-		
+
 		return model;
 	}
 
 	public TradeRefundRequest() {
-		this.refundNo = randomStringGenerator.generate(32);
+		this.refundNo = UidGenerator.next();
 	}
 
 	/**

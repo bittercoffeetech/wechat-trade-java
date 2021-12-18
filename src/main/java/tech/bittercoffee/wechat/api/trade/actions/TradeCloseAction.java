@@ -1,8 +1,8 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeCloseRequest;
-import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponse;
+import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
+import tech.bittercoffee.wechat.api.trade.models.request.TradeCloseRequest;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeCloseResponse;
 
 /**
  * 关闭订单
@@ -10,16 +10,15 @@ import tech.bittercoffee.wechat.api.trade.models.TradeCloseResponse;
  * @author BitterCoffee
  *
  */
-public class WechatTradeCloseAction implements WechatTradeAction<TradeCloseRequest, TradeCloseResponse> {
+public class TradeCloseAction extends AbstractTradeAction<TradeCloseRequest, TradeCloseResponse> {
+
+	public TradeCloseAction(WechatClientConfig config) {
+		super(config);
+	}
 
 	@Override
 	public String url() {
 		return "https://api.mch.weixin.qq.com/pay/closeorder";
-	}
-
-	@Override
-	public boolean hasHierarchy() {
-		return false;
 	}
 
 	@Override
@@ -31,5 +30,5 @@ public class WechatTradeCloseAction implements WechatTradeAction<TradeCloseReque
 	public Class<TradeCloseResponse> getResponseType() {
 		return TradeCloseResponse.class;
 	}
-	
+
 }

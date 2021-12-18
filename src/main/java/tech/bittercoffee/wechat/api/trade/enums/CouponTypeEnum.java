@@ -10,12 +10,12 @@ public enum CouponTypeEnum {
 	/**
 	 * 充值代金券
 	 */
-	CASH("CASH"), 
+	CASH("CASH"),
 	/**
 	 * 非充值优惠券
 	 */
 	NO_CASH("NO_CASH");
-	
+
 	private String value;
 
 	private CouponTypeEnum(String value) {

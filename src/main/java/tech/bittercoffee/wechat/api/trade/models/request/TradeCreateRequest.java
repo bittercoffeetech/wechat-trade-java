@@ -1,5 +1,6 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.request;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,6 +16,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
+import tech.bittercoffee.wechat.api.trade.models.response.BooleanDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.response.CompactLocalDateTimeDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeGoodsDetailInfo;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeSceneInfo;
 
 /**
  * 统一下单请求
@@ -25,18 +30,9 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 @JsonRootName("trade_create")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeCreateRequest extends TradeSignatureInfo {
+public final class TradeCreateRequest implements Serializable {
 
 	private static final long serialVersionUID = 6260044783248850548L;
-
-	public static TradeCreateRequest newOrder(TradeTypeEnum tradeType, long totalFee, String body) {
-		TradeCreateRequest model = new TradeCreateRequest();
-		model.tradeType = tradeType;
-		model.totalFee = totalFee;
-		model.body = body;
-		
-		return model;
-	}
 
 	/**
 	 * 符合ISO 4217标准的三位字母代码，默认人民币：CNY
@@ -334,5 +330,4 @@ public final class TradeCreateRequest extends TradeSignatureInfo {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-
 }

@@ -10,7 +10,7 @@ public enum RefundChannelEnum {
 	/**
 	 * 原路退款
 	 */
-	ORIGINAL("ORIGINAL"), 
+	ORIGINAL("ORIGINAL"),
 	/**
 	 * 退回到余额
 	 */
@@ -23,7 +23,7 @@ public enum RefundChannelEnum {
 	 * 原银行卡异常退到其他银行卡
 	 */
 	OTHER_BANKCARD("OTHER_BANKCARD");
-	
+
 	private String value;
 
 	private RefundChannelEnum(String value) {

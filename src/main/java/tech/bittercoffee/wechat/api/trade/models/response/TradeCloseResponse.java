@@ -1,4 +1,6 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -16,7 +18,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JsonRootName("trade_close_response")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeCloseResponse extends TradeAppInfo {
+public final class TradeCloseResponse implements Serializable {
 
 	private static final long serialVersionUID = -8310580381720323679L;
 

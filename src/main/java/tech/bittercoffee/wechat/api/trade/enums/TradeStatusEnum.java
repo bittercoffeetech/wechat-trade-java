@@ -10,7 +10,7 @@ public enum TradeStatusEnum {
 	/**
 	 * 支付成功
 	 */
-	SUCCESS("SUCCESS"), 
+	SUCCESS("SUCCESS"),
 	/**
 	 * REFUND
 	 */
@@ -35,7 +35,7 @@ public enum TradeStatusEnum {
 	 * 支付失败(其他原因，如银行返回失败)
 	 */
 	PAYERROR("PAYERROR");
-	
+
 	private String value;
 
 	private TradeStatusEnum(String value) {

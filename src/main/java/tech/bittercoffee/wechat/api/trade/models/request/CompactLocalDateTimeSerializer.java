@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.request;
 
 import java.time.format.DateTimeFormatter;
 

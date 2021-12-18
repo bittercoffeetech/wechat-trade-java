@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 import java.io.Serializable;
 
@@ -16,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder(value = { "total_flows", "total_incomes", "total_income_fee", "total_expenses", "total_expenses_fee" })
+@JsonPropertyOrder(value = { "total_flows", "total_incomes", "total_income_fee", "total_expenses",
+		"total_expenses_fee" })
 public class TradeFundflowSummaryInfo implements Serializable {
 
 	private static final long serialVersionUID = 7534222140623095477L;

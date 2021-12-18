@@ -1,5 +1,6 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.request;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 
 import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
+import tech.bittercoffee.wechat.api.trade.models.response.CompactLocalDateDeserializer;
 
 /**
  * 下载对账单
@@ -17,7 +19,7 @@ import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class TradeSheetRequest extends TradeSignatureInfo {
+public abstract class TradeSheetRequest implements Serializable {
 
 	private static final long serialVersionUID = -198191473007581123L;
 
@@ -41,7 +43,7 @@ public abstract class TradeSheetRequest extends TradeSignatureInfo {
 		this.billDate = billDate;
 		this.tarType = tarType;
 	}
-	
+
 	public LocalDate getBillDate() {
 		return billDate;
 	}

@@ -1,8 +1,10 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundRequest;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundResponse;
+import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
+import tech.bittercoffee.wechat.api.trade.models.request.TradeRefundRequest;
+import tech.bittercoffee.wechat.api.trade.models.response.HierarchyConfig;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeRefundCouponInfo;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeRefundResponse;
 
 /**
  * 退款申请
@@ -10,7 +12,11 @@ import tech.bittercoffee.wechat.api.trade.models.TradeRefundResponse;
  * @author BitterCoffee
  *
  */
-public class WechatTradeRefundAction implements WechatTradeAction<TradeRefundRequest, TradeRefundResponse> {
+public class TradeRefundAction extends AbstractTradeAction<TradeRefundRequest, TradeRefundResponse> {
+
+	public TradeRefundAction(WechatClientConfig config) {
+		super(config);
+	}
 
 	@Override
 	public String url() {
@@ -32,4 +38,9 @@ public class WechatTradeRefundAction implements WechatTradeAction<TradeRefundReq
 		return TradeRefundResponse.class;
 	}
 
+	@Override
+	public HierarchyConfig[] hierarchy() {
+		return new HierarchyConfig[] {
+				new HierarchyConfig("coupon", TradeRefundCouponInfo.class, "coupon_refund_count") };
+	}
 }

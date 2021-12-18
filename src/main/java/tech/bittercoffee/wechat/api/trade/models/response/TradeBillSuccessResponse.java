@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 /**
  * 下载成功交易账单返回
@@ -19,6 +19,5 @@ public class TradeBillSuccessResponse extends TradeSheetResponse<TradeBillSummar
 	public Class<TradeBillSuccessInfo> getRecordType() {
 		return TradeBillSuccessInfo.class;
 	}
-
 
 }

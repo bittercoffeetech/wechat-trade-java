@@ -1,4 +1,6 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.request;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -18,21 +20,21 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JsonRootName("trade_refund_query")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeRefundQueryRequest extends TradeSignatureInfo {
+public final class TradeRefundQueryRequest implements Serializable {
 
 	private static final long serialVersionUID = 8909748011353635694L;
-	
+
 	public static TradeRefundQueryRequest withTradeNo(String tradeNo) {
 		TradeRefundQueryRequest model = new TradeRefundQueryRequest();
 		model.tradeNo = tradeNo;
-		
+
 		return model;
 	}
-	
+
 	public static TradeRefundQueryRequest withTransactionId(String transactionId) {
 		TradeRefundQueryRequest model = new TradeRefundQueryRequest();
 		model.transactionId = transactionId;
-		
+
 		return model;
 	}
 
@@ -85,7 +87,7 @@ public final class TradeRefundQueryRequest extends TradeSignatureInfo {
 		this.offset = offset;
 		return this;
 	}
-	
+
 	public String getRefundNo() {
 		return refundNo;
 	}
@@ -93,7 +95,7 @@ public final class TradeRefundQueryRequest extends TradeSignatureInfo {
 	public String getRefundId() {
 		return refundId;
 	}
-	
+
 	public Integer getOffset() {
 		return offset;
 	}

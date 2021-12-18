@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 /**
  * 下载资金账单返回

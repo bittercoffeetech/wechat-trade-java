@@ -12,13 +12,13 @@ public enum SignTypeEnum {
 	/**
 	 * SHA256
 	 */
-	HMAC_SHA256("HMAC-SHA256"), 
-	
+	HMAC_SHA256("HMAC-SHA256"),
+
 	/**
 	 * 默认MD5
 	 */
 	MD5("MD5");
-	
+
 	private String value;
 
 	private SignTypeEnum(String value) {
@@ -34,5 +34,5 @@ public enum SignTypeEnum {
 	public String toString() {
 		return this.value;
 	}
-	
+
 }

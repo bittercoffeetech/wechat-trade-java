@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,21 +40,21 @@ public abstract class TradeSheetResponse<M, D> implements Serializable {
 	public List<D> getRecords() {
 		return records;
 	}
-	
+
 	/**
 	 * 概要数据类型
 	 * 
 	 * @return
 	 */
 	public abstract Class<M> getSummaryType();
-	
+
 	/**
 	 * 明细数据类型
 	 * 
 	 * @return
 	 */
 	public abstract Class<D> getRecordType();
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);

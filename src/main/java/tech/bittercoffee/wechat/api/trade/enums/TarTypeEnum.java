@@ -5,11 +5,11 @@ package tech.bittercoffee.wechat.api.trade.enums;
  * 
  * @author BitterCoffee
  *
- */  
+ */
 public enum TarTypeEnum {
 
 	GZIP("GZIP");
-	
+
 	private String value;
 
 	private TarTypeEnum(String value) {

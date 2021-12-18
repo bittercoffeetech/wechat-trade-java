@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class TradeReturn implements Serializable {
 	@JsonProperty("return_msg")
 	@JacksonXmlCData
 	private String returnMessage;
-	
+
 	public TradeReturn(ResultStatusEnum returnCode, String returnMessage) {
 		super();
 		this.returnCode = returnCode;
@@ -55,20 +55,19 @@ public class TradeReturn implements Serializable {
 	}
 
 	@JsonCreator
-	public TradeReturn(@JsonProperty("return_code") String returnCode,
-			@JsonProperty("return_msg") String returnMessage,
+	public TradeReturn(@JsonProperty("return_code") String returnCode, @JsonProperty("return_msg") String returnMessage,
 			@JsonProperty("error_code") String errorCode) {
 		super();
 		this.returnCode = ObjectUtils.defaultIfNull(EnumUtils.getEnum(ResultStatusEnum.class, returnCode),
 				ResultStatusEnum.UNKNOWN);
-		
-		if(ERROR_CODES.containsKey(returnMessage)) {
+
+		if (ERROR_CODES.containsKey(returnMessage)) {
 			this.returnMessage = ERROR_CODES.get(returnMessage);
 		} else if (ERROR_CODES.containsKey(errorCode)) {
 			this.returnMessage = ERROR_CODES.get(errorCode);
 		} else {
 			this.returnMessage = returnMessage;
-		} 
+		}
 	}
 
 	public boolean isSuccess() {
@@ -84,24 +83,13 @@ public class TradeReturn implements Serializable {
 	}
 
 	private static final Map<String, String> ERROR_CODES = ImmutableMap.<String, String>builder()
-			.put("sign error","签名错误")
-			.put("nonce_str too long","参数nonce_str错误")
-			.put("invalid tar_type, Only GZIP supported","参数tar_type错误")
-			.put("invalid bill_type","参数bill_type错误")
-			.put("invalid bill_date","参数bill_date错误")
-			.put("require POST method","请求方式错误")
-			.put("empty post data","请求报文错误")
-			.put("data format error","参数格式错误")
-			.put("missing parameter","缺少参数")
-			.put("invalid appid","appid错误")
-			.put("invalid parameter","参数错误")
-			.put("No Bill Exist","账单不存在")
-			.put("Bill Creating","账单未生成")
-			.put("system error","下载失败")
-			.put("100","下载失败")
-			.put("20003","下载失败")
-			.put("20007","当前商户号账单API权限已经关闭")
-			.build();
+			.put("sign error", "签名错误").put("nonce_str too long", "参数nonce_str错误")
+			.put("invalid tar_type, Only GZIP supported", "参数tar_type错误").put("invalid bill_type", "参数bill_type错误")
+			.put("invalid bill_date", "参数bill_date错误").put("require POST method", "请求方式错误")
+			.put("empty post data", "请求报文错误").put("data format error", "参数格式错误").put("missing parameter", "缺少参数")
+			.put("invalid appid", "appid错误").put("invalid parameter", "参数错误").put("No Bill Exist", "账单不存在")
+			.put("Bill Creating", "账单未生成").put("system error", "下载失败").put("100", "下载失败").put("20003", "下载失败")
+			.put("20007", "当前商户号账单API权限已经关闭").build();
 
 	@Override
 	public String toString() {

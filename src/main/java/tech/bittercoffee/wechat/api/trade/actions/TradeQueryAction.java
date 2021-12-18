@@ -1,8 +1,10 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeQueryRequest;
-import tech.bittercoffee.wechat.api.trade.models.TradeQueryResponse;
+import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
+import tech.bittercoffee.wechat.api.trade.models.request.TradeQueryRequest;
+import tech.bittercoffee.wechat.api.trade.models.response.HierarchyConfig;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeCouponInfo;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeQueryResponse;
 
 /**
  * 订单查询
@@ -10,7 +12,11 @@ import tech.bittercoffee.wechat.api.trade.models.TradeQueryResponse;
  * @author BitterCoffee
  *
  */
-public final class WechatTradeQueryAction implements WechatTradeAction<TradeQueryRequest, TradeQueryResponse> {
+public final class TradeQueryAction extends AbstractTradeAction<TradeQueryRequest, TradeQueryResponse> {
+
+	public TradeQueryAction(WechatClientConfig config) {
+		super(config);
+	}
 
 	@Override
 	public String url() {
@@ -25,6 +31,11 @@ public final class WechatTradeQueryAction implements WechatTradeAction<TradeQuer
 	@Override
 	public Class<TradeQueryResponse> getResponseType() {
 		return TradeQueryResponse.class;
+	}
+
+	@Override
+	public HierarchyConfig[] hierarchy() {
+		return new HierarchyConfig[] { new HierarchyConfig("coupon", TradeCouponInfo.class, "coupon_count") };
 	}
 
 }

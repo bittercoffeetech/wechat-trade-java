@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 import java.io.Serializable;
 
@@ -24,14 +24,12 @@ public final class TradeRefundCouponInfo implements Serializable {
 	/**
 	 * 代金券ID
 	 */
-	@ApiField(name = "coupon_refund_id")
 	@JsonProperty("coupon_refund_id")
 	private String id;
 
 	/**
 	 * 单个代金券支付金额
 	 */
-	@ApiField(name = "coupon_refund_fee")
 	@JsonProperty("coupon_refund_fee")
 	private long fee;
 
@@ -40,7 +38,6 @@ public final class TradeRefundCouponInfo implements Serializable {
 	 * 
 	 * @see CouponTypeEnum
 	 */
-	@ApiField(name = "coupon_type")
 	@JsonProperty("coupon_type")
 	private CouponTypeEnum type;
 

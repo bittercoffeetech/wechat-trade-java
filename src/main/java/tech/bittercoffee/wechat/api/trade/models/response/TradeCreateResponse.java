@@ -1,4 +1,6 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -8,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import tech.bittercoffee.wechat.api.trade.UidGenerator;
 import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 
 /**
@@ -19,14 +22,14 @@ import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
 @JsonRootName("trade_create_response")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeCreateResponse extends TradeAppInfo {
+public final class TradeCreateResponse implements Serializable {
 
 	private static final long serialVersionUID = 8268705503120335822L;
-	
+
 	public TradeCreateResponse() {
-		this.tradeNo = randomStringGenerator.generate(32);
+		this.tradeNo = UidGenerator.next();
 	}
-	
+
 	/**
 	 * 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*且在同一个商户号下唯一。
 	 */
@@ -36,7 +39,6 @@ public final class TradeCreateResponse extends TradeAppInfo {
 	/**
 	 * 二维码链接
 	 */
-	@ApiField(name = "code_url")
 	@JsonProperty("code_url")
 	private String codeUrl;
 
@@ -45,24 +47,21 @@ public final class TradeCreateResponse extends TradeAppInfo {
 	 * 
 	 * @see TradeTypeEnum
 	 */
-	@ApiField(name = "trade_type")
 	@JsonProperty("trade_type")
 	private TradeTypeEnum tradeType;
 
 	/**
 	 * 预支付交易会话标识
 	 */
-	@ApiField(name = "prepay_id")
 	@JsonProperty("prepay_id")
 	private String prepayId;
 
 	/**
 	 * 设备号 自定义参数，可以为请求支付的终端设备号等
 	 */
-	@ApiField(name = "device_info")
 	@JsonProperty("device_info")
 	private String deviceInfo;
-	
+
 	public String getTradeNo() {
 		return tradeNo;
 	}

@@ -1,7 +1,6 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeSignatureInfo;
+import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
 
 /**
  * 下载交易账单
@@ -9,8 +8,12 @@ import tech.bittercoffee.wechat.api.trade.models.TradeSignatureInfo;
  * @author BitterCoffee
  *
  */
-public abstract class WechatTradeBillAction<R extends TradeSignatureInfo, S> implements WechatTradeAction<R, S> {
-	
+public abstract class TradeBillAction<R, S> extends AbstractTradeAction<R, S> {
+
+	public TradeBillAction(WechatClientConfig config) {
+		super(config);
+	}
+
 	@Override
 	public String url() {
 		return "https://api.mch.weixin.qq.com/pay/downloadbill";
@@ -20,12 +23,7 @@ public abstract class WechatTradeBillAction<R extends TradeSignatureInfo, S> imp
 	public boolean hasSigned() {
 		return false;
 	}
-	
-	@Override
-	public boolean hasHierarchy() {
-		return false;
-	}
-	
+
 	@Override
 	public boolean isStreaming() {
 		return true;

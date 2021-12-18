@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.request;
 
 import java.time.LocalDate;
 
@@ -27,16 +27,17 @@ import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
 public final class TradeBillAllRequest extends TradeSheetRequest {
 
 	private static final long serialVersionUID = -198191473007581123L;
-	
+
 	public static TradeBillAllRequest of(LocalDate billDate, boolean zip) {
 		return new TradeBillAllRequest(billDate, zip ? TarTypeEnum.GZIP : null);
 	}
-	
+
 	@JsonCreator
-	public TradeBillAllRequest(@JsonProperty("bill_date") LocalDate billDate, @JsonProperty("tar_type") TarTypeEnum tarType) {
+	public TradeBillAllRequest(@JsonProperty("bill_date") LocalDate billDate,
+			@JsonProperty("tar_type") TarTypeEnum tarType) {
 		super(billDate, tarType);
 	}
-	
+
 	/**
 	 * 账单类型
 	 */

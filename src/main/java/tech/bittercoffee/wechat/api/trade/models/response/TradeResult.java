@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 import static org.apache.commons.lang3.EnumUtils.getEnum;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
@@ -32,8 +32,7 @@ public final class TradeResult implements Serializable {
 	public TradeResult(@JsonProperty("result_code") String resultCode, @JsonProperty("err_code") String errorCode,
 			@JsonProperty("err_code_des") String errorMessage) {
 		super();
-		this.resultCode = defaultIfNull(getEnum(ResultStatusEnum.class, resultCode),
-				ResultStatusEnum.UNKNOWN);
+		this.resultCode = defaultIfNull(getEnum(ResultStatusEnum.class, resultCode), ResultStatusEnum.UNKNOWN);
 		this.errorCode = errorCode;
 		this.errorMessage = defaultString(errorMessage, ErrorCodeEnum.of(ErrorCodeEnum.INVALID_REQUEST));
 	}
@@ -41,7 +40,6 @@ public final class TradeResult implements Serializable {
 	/**
 	 * 返回状态码 SUCCESS/FAIL
 	 */
-	@ApiField(name = "result_code")
 	@JsonProperty("result_code")
 	@JacksonXmlCData
 	private ResultStatusEnum resultCode;
@@ -49,7 +47,6 @@ public final class TradeResult implements Serializable {
 	/**
 	 * 错误代码
 	 */
-	@ApiField(name = "err_code")
 	@JsonProperty("err_code")
 	@JacksonXmlCData
 	private String errorCode;
@@ -57,7 +54,6 @@ public final class TradeResult implements Serializable {
 	/**
 	 * 错误代码描述
 	 */
-	@ApiField(name = "err_code_des")
 	@JsonProperty("err_code_des")
 	@JacksonXmlCData
 	private String errorMessage;

@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -31,35 +31,30 @@ public final class TradeRefundInfo implements Serializable {
 	/**
 	 * 商户退款单号 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。
 	 */
-	@ApiField(name = "out_refund_no")
 	@JsonProperty("out_refund_no")
 	private String refundNo;
 
 	/**
 	 * 微信退款单号 微信生成的退款单号，在申请退款接口有返回
 	 */
-	@ApiField(name = "refund_id")
 	@JsonProperty("refund_id")
 	private String refundId;
 
 	/**
 	 * 退款金额 退款总金额，订单总金额，单位为分，只能为整数
 	 */
-	@ApiField(name = "refund_fee")
 	@JsonProperty("refund_fee")
 	private long refundFee;
 
 	/**
 	 * 应结退款金额 去掉非充值代金券退款金额后的退款金额，退款金额=申请退款金额-非充值代金券退款金额，退款金额&lt;=申请退款金额
 	 */
-	@ApiField(name = "settlement_refund_fee")
 	@JsonProperty("settlement_refund_fee")
 	private long settlementRefundFee;
 
 	/**
 	 * 退款状态
 	 */
-	@ApiField(name = "refund_status")
 	@JsonProperty("refund_status")
 	private RefundStatusEnum refundStatus;
 
@@ -68,28 +63,24 @@ public final class TradeRefundInfo implements Serializable {
 	 * 
 	 * @see RefundAccountEnum
 	 */
-	@ApiField(name = "refund_account")
 	@JsonProperty("refund_account")
 	private RefundAccountEnum refundAccount;
 
 	/**
 	 * 退款入账账户
 	 */
-	@ApiField(name = "refund_recv_accout")
 	@JsonProperty("refund_recv_accout")
 	private String refundRecvAccout;
 
 	/**
 	 * 退款渠道
 	 */
-	@ApiField(name = "refund_channel")
 	@JsonProperty("refund_channel")
 	private RefundChannelEnum refundChannel;
 
 	/**
 	 * 退款成功时间 资金退款至用户帐号的时间，格式2017-12-15 09:46:01
 	 */
-	@ApiField(name = "refund_success_time")
 	@JsonProperty("refund_success_time")
 	@JsonDeserialize(using = StandardLocalDateTimeDeserializer.class)
 	private LocalDateTime refundSuccessTime;
@@ -97,14 +88,12 @@ public final class TradeRefundInfo implements Serializable {
 	/**
 	 * 代金券使用数量
 	 */
-	@ApiField(name = "coupon_refund_count")
 	@JsonProperty("coupon_refund_count")
 	private int couponCount;
 
 	/**
 	 * 代金券金额 “代金券”金额&lt;=订单金额，订单金额-“代金券”金额=现金支付金额
 	 */
-	@ApiField(name = "coupon_refund_fee")
 	@JsonProperty("coupon_refund_fee")
 	private long couponFee;
 
@@ -113,9 +102,8 @@ public final class TradeRefundInfo implements Serializable {
 	 * 
 	 * @see TradeRefundCouponInfo
 	 */
-	@ApiField(name = "coupon", subType = TradeRefundCouponInfo.class, subName = "coupon", countName = "coupon_refund_count")
 	@JsonProperty("coupon")
-	@JacksonXmlElementWrapper(localName = "coupon", useWrapping = false)
+	@JacksonXmlElementWrapper(useWrapping = false)
 	private List<TradeRefundCouponInfo> coupons;
 
 	public String getRefundNo() {

@@ -1,8 +1,13 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryRequest;
-import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponse;
+import com.google.common.collect.ImmutableList;
+
+import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
+import tech.bittercoffee.wechat.api.trade.models.request.TradeRefundQueryRequest;
+import tech.bittercoffee.wechat.api.trade.models.response.HierarchyConfig;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeRefundCouponInfo;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeRefundInfo;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeRefundQueryResponse;
 
 /**
  * 退款查询
@@ -10,7 +15,11 @@ import tech.bittercoffee.wechat.api.trade.models.TradeRefundQueryResponse;
  * @author BitterCoffee
  *
  */
-public class WechatTradeRefundQueryAction implements WechatTradeAction<TradeRefundQueryRequest, TradeRefundQueryResponse> {
+public class TradeRefundQueryAction extends AbstractTradeAction<TradeRefundQueryRequest, TradeRefundQueryResponse> {
+
+	public TradeRefundQueryAction(WechatClientConfig config) {
+		super(config);
+	}
 
 	@Override
 	public String url() {
@@ -25,6 +34,12 @@ public class WechatTradeRefundQueryAction implements WechatTradeAction<TradeRefu
 	@Override
 	public Class<TradeRefundQueryResponse> getResponseType() {
 		return TradeRefundQueryResponse.class;
+	}
+
+	@Override
+	public HierarchyConfig[] hierarchy() {
+		return new HierarchyConfig[] { new HierarchyConfig("refund", TradeRefundInfo.class, "refund_count",
+				ImmutableList.of(new HierarchyConfig("coupon", TradeRefundCouponInfo.class, "coupon_refund_count"))) };
 	}
 
 }

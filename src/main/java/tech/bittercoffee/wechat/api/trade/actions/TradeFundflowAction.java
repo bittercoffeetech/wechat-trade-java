@@ -1,9 +1,9 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.WechatTradeAction;
+import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
 import tech.bittercoffee.wechat.api.trade.enums.SignTypeEnum;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowRequest;
-import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponse;
+import tech.bittercoffee.wechat.api.trade.models.request.TradeFundflowRequest;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeFundflowResponse;
 
 /**
  * 下载资金账单
@@ -11,7 +11,11 @@ import tech.bittercoffee.wechat.api.trade.models.TradeFundflowResponse;
  * @author BitterCoffee
  *
  */
-public class WechatTradeFundflowAction implements WechatTradeAction<TradeFundflowRequest, TradeFundflowResponse> {
+public class TradeFundflowAction extends AbstractTradeAction<TradeFundflowRequest, TradeFundflowResponse> {
+
+	public TradeFundflowAction(WechatClientConfig config) {
+		super(config);
+	}
 
 	@Override
 	public String url() {
@@ -32,12 +36,7 @@ public class WechatTradeFundflowAction implements WechatTradeAction<TradeFundflo
 	public boolean hasSigned() {
 		return false;
 	}
-	
-	@Override
-	public boolean hasHierarchy() {
-		return false;
-	}
-	
+
 	@Override
 	public boolean isStreaming() {
 		return true;

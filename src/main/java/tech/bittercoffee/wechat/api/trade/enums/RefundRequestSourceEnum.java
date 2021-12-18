@@ -10,12 +10,12 @@ public enum RefundRequestSourceEnum {
 	/**
 	 * API接口
 	 */
-	API("API"), 
+	API("API"),
 	/**
 	 * 商户平台
 	 */
 	VENDOR_PLATFORM("VENDOR_PLATFORM");
-	
+
 	private String value;
 
 	private RefundRequestSourceEnum(String value) {

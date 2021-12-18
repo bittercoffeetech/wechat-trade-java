@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.response;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -19,10 +19,10 @@ import tech.bittercoffee.wechat.api.trade.enums.RefundStatusEnum;
  */
 @JsonRootName("bill")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder(value = { "trade_time", "app_id", "mch_id", "sub_mch_id", "device_info", "transaction_id", "trade_no",
-		"open_id", "trade_type", "trade_status", "bank_type", "fee_type", "settlement_total_fee", "coupon_fee",
-		"refund_id", "refund_no", "refunded_fee", "refund_coupon_fee", "refund_channel", "refund_status", "body",
-		"attach", "service_fee", "rate", "total_fee", "refund_fee", "rate_desc" })
+@JsonPropertyOrder(value = { "trade_time", "app_id", "mch_id", "sub_mch_id", "device_info", "transaction_id",
+		"trade_no", "open_id", "trade_type", "trade_status", "bank_type", "fee_type", "settlement_total_fee",
+		"coupon_fee", "refund_id", "refund_no", "refunded_fee", "refund_coupon_fee", "refund_channel", "refund_status",
+		"body", "attach", "service_fee", "rate", "total_fee", "refund_fee", "rate_desc" })
 public class TradeBillAllInfo extends TradeBillSuccessInfo {
 
 	private static final long serialVersionUID = 729077094636175091L;

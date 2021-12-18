@@ -1,7 +1,8 @@
 package tech.bittercoffee.wechat.api.trade.actions;
 
-import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundRequest;
-import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponse;
+import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
+import tech.bittercoffee.wechat.api.trade.models.request.TradeBillRefundRequest;
+import tech.bittercoffee.wechat.api.trade.models.response.TradeBillRefundResponse;
 
 /**
  * 下载退款交易账单
@@ -9,7 +10,11 @@ import tech.bittercoffee.wechat.api.trade.models.TradeBillRefundResponse;
  * @author BitterCoffee
  *
  */
-public class WechatTradeBillRefundAction extends WechatTradeBillAction<TradeBillRefundRequest, TradeBillRefundResponse> {
+public class TradeBillRefundAction extends TradeBillAction<TradeBillRefundRequest, TradeBillRefundResponse> {
+
+	public TradeBillRefundAction(WechatClientConfig config) {
+		super(config);
+	}
 
 	@Override
 	public Class<TradeBillRefundRequest> getRequestType() {

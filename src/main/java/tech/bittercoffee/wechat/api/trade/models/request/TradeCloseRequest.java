@@ -1,4 +1,6 @@
-package tech.bittercoffee.wechat.api.trade.models;
+package tech.bittercoffee.wechat.api.trade.models.request;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -18,21 +20,21 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JsonRootName("trade_close")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "xml")
-public final class TradeCloseRequest extends TradeSignatureInfo {
+public final class TradeCloseRequest implements Serializable {
 
 	private static final long serialVersionUID = -198191473007581123L;
-	
+
 	public static TradeCloseRequest withTradeNo(String tradeNo) {
 		TradeCloseRequest model = new TradeCloseRequest();
 		model.tradeNo = tradeNo;
-		
+
 		return model;
 	}
-	
+
 	public static TradeCloseRequest withTransactionId(String transactionId) {
 		TradeCloseRequest model = new TradeCloseRequest();
 		model.transactionId = transactionId;
-		
+
 		return model;
 	}
 
@@ -49,7 +51,7 @@ public final class TradeCloseRequest extends TradeSignatureInfo {
 	@JsonProperty("transaction_id")
 	@JacksonXmlCData
 	private String transactionId;
-	
+
 	public String getTradeNo() {
 		return tradeNo;
 	}

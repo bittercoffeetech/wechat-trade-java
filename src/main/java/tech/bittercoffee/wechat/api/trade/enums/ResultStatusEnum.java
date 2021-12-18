@@ -10,7 +10,7 @@ public enum ResultStatusEnum {
 	/**
 	 * 成功
 	 */
-	SUCCESS("SUCCESS"), 
+	SUCCESS("SUCCESS"),
 	/**
 	 * 失败
 	 */
@@ -19,7 +19,7 @@ public enum ResultStatusEnum {
 	 * 未知
 	 */
 	UNKNOWN("UNKNOWN");
-	
+
 	private String value;
 
 	private ResultStatusEnum(String value) {
@@ -29,5 +29,5 @@ public enum ResultStatusEnum {
 	public String value() {
 		return this.value;
 	}
-	
+
 }

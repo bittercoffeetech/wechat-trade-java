@@ -2,6 +2,7 @@ package tech.bittercoffee.wechat.api.trade.enums;
 
 /**
  * 交易类型
+ * 
  * @author BitterCoffee
  *
  */
@@ -9,7 +10,7 @@ public enum TradeTypeEnum {
 	/**
 	 * JSAPI支付（或小程序支付）
 	 */
-	JSAPI("JSAPI"), 
+	JSAPI("JSAPI"),
 	/**
 	 * Native支付
 	 */
@@ -26,7 +27,7 @@ public enum TradeTypeEnum {
 	 * 付款码支付
 	 */
 	MICROPAY("MICROPAY");
-	
+
 	private String value;
 
 	private TradeTypeEnum(String value) {
