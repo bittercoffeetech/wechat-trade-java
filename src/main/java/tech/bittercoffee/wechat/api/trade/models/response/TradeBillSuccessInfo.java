@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.TradeStatusEnum;
 import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
+import tech.bittercoffee.wechat.api.trade.models.RateDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.StandardLocalDateTimeDeserializer;
 
 /**
  * 交易对账单成功的记录

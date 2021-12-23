@@ -10,7 +10,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 
 import tech.bittercoffee.wechat.api.trade.enums.TarTypeEnum;
-import tech.bittercoffee.wechat.api.trade.models.response.CompactLocalDateDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.CompactLocalDateDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.CompactLocalDateSerializer;
 
 /**
  * 下载对账单

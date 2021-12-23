@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import tech.bittercoffee.wechat.api.trade.models.StandardLocalDateTimeDeserializer;
+
 /**
  * 交易对账单退款记录
  * 

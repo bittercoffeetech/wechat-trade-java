@@ -1,4 +1,4 @@
-package tech.bittercoffee.wechat.api.trade.models.request;
+package tech.bittercoffee.wechat.api.trade.models;
 
 import java.io.IOException;
 

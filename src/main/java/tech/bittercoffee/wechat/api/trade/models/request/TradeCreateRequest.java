@@ -16,8 +16,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import tech.bittercoffee.wechat.api.trade.enums.FeeTypeEnum;
 import tech.bittercoffee.wechat.api.trade.enums.TradeTypeEnum;
-import tech.bittercoffee.wechat.api.trade.models.response.BooleanDeserializer;
-import tech.bittercoffee.wechat.api.trade.models.response.CompactLocalDateTimeDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.BooleanDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.BooleanSerializer;
+import tech.bittercoffee.wechat.api.trade.models.CompactLocalDateTimeDeserializer;
+import tech.bittercoffee.wechat.api.trade.models.CompactLocalDateTimeSerializer;
 import tech.bittercoffee.wechat.api.trade.models.response.TradeGoodsDetailInfo;
 import tech.bittercoffee.wechat.api.trade.models.response.TradeSceneInfo;
 

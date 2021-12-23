@@ -15,6 +15,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tech.bittercoffee.wechat.api.trade.enums.RefundAccountEnum;
 import tech.bittercoffee.wechat.api.trade.enums.RefundChannelEnum;
 import tech.bittercoffee.wechat.api.trade.enums.RefundStatusEnum;
+import tech.bittercoffee.wechat.api.trade.models.StandardLocalDateTimeDeserializer;
 
 /**
  * 退款详细信息
