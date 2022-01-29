@@ -72,11 +72,11 @@ public abstract class AbstractTradeResponsive<S> implements TradeResponse<S> {
 	}
 	protected WechatClientConfig config;
 
-	public AbstractTradeResponsive(WechatClientConfig config) {
+	protected AbstractTradeResponsive(WechatClientConfig config) {
 		this.config = config;
 	}
 
-	protected BiFunction<TreeMap<String, Object>, SignTypeEnum, String> signOf = (values, signType) -> {
+	protected BiFunction<Map<String, Object>, SignTypeEnum, String> signOf = (values, signType) -> {
 		String toSign = values.entrySet().stream().filter(p -> !"sign".equals(p.getKey()))
 				.filter(p -> Objects.nonNull(p.getValue()) && StringUtils.isNotEmpty(p.getValue().toString()))
 				.map(p -> p.getKey() + "=" + p.getValue()).reduce((p1, p2) -> p1 + "&" + p2).orElse(StringUtils.EMPTY)
@@ -101,10 +101,11 @@ public abstract class AbstractTradeResponsive<S> implements TradeResponse<S> {
 			String decrypted = new String(cipher.doFinal(Base64.decodeBase64(enc)));
 			source.putAll(xmlMapper.readValue(decrypted, Map.class));
 		} catch (Exception e) {
+			// nothing
 		}
 	};
 
-	Consumer<Map<String, Object>> hierarchy = (source) -> {
+	Consumer<Map<String, Object>> hierarchy = source -> {
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		TriFunction<TriFunction, HierarchyConfig, String, Map<String, List<Map<String, Object>>>> fetch = (func, hcfg,
 				suffix) -> {
@@ -140,10 +141,10 @@ public abstract class AbstractTradeResponsive<S> implements TradeResponse<S> {
 			source.putAll(fetch.apply(fetch, this.hierarchy()[h], StringUtils.EMPTY));
 		}
 
-		source.entrySet().removeIf(entry -> entry.getKey().matches("^.*((_)[0-9]+)+"));
+		source.entrySet().removeIf(entry -> entry.getKey().matches("^.*(_[0-9]+)+"));
 	};
 
-	protected FailableFunction<InputStream, S, WechatApiException> forXml = (input) -> {
+	protected FailableFunction<InputStream, S, WechatApiException> forXml = input -> {
 		try {
 			@SuppressWarnings("unchecked")
 			TreeMap<String, Object> responseValues = xmlMapper
@@ -170,12 +171,12 @@ public abstract class AbstractTradeResponsive<S> implements TradeResponse<S> {
 
 			return xmlMapper.convertValue(responseValues, getResponseType());
 		} catch (IOException e) {
-			throw new WechatApiException(ErrorCodeEnum.ERROR.value(), e);
+			throw new WechatApiException(e);
 		}
 	};
 
 	@SuppressWarnings("unchecked")
-	protected FailableFunction<InputStream, S, WechatApiException> forCsv = (input) -> {
+	protected FailableFunction<InputStream, S, WechatApiException> forCsv = input -> {
 		Predicate<String> isChineseWord = word -> Pattern.compile("[\u4e00-\u9fa5]").matcher(word).find();
 		TradeSheetResponse<?, ?> result;
 		try {
@@ -190,7 +191,7 @@ public abstract class AbstractTradeResponsive<S> implements TradeResponse<S> {
 
 			reader.next(); // Skip First Title
 			reader.forEachRemaining(lineText -> {
-				lineText = RegExUtils.removeAll(lineText, "(`|\\r|\\n)");
+				lineText = RegExUtils.removeAll(lineText, "(`\\r\\n)");
 				boolean isTitle = isChineseWord.test(lineText.substring(0, 1));
 
 				if (!isSummary.get()) {
@@ -211,7 +212,7 @@ public abstract class AbstractTradeResponsive<S> implements TradeResponse<S> {
 				}
 			});
 		} catch (IOException e) {
-			throw new WechatApiException(ErrorCodeEnum.ERROR.value(), e);
+			throw new WechatApiException(e);
 		}
 
 		return (S) result;

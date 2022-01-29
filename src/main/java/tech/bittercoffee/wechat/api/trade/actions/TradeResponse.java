@@ -54,8 +54,4 @@ public interface TradeResponse<S> {
 		return SignTypeEnum.MD5;
 	}
 
-	default boolean isStreaming() {
-		return false;
-	}
-
 }

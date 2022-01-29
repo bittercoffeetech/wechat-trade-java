@@ -14,7 +14,7 @@ import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
  */
 public abstract class AbstractTradeNotification<S> extends AbstractTradeResponsive<S> {
 
-	public AbstractTradeNotification(WechatClientConfig config) {
+	protected AbstractTradeNotification(WechatClientConfig config) {
 		super(config);
 	}
 

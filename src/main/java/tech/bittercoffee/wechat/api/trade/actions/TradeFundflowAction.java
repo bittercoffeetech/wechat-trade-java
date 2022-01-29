@@ -38,11 +38,6 @@ public class TradeFundflowAction extends AbstractTradeAction<TradeFundflowReques
 	}
 
 	@Override
-	public boolean isStreaming() {
-		return true;
-	}
-
-	@Override
 	public Class<TradeFundflowRequest> getRequestType() {
 		return TradeFundflowRequest.class;
 	}

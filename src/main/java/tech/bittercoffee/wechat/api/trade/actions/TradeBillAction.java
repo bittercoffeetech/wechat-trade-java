@@ -10,7 +10,7 @@ import tech.bittercoffee.wechat.api.trade.WechatClientConfig;
  */
 public abstract class TradeBillAction<R, S> extends AbstractTradeAction<R, S> {
 
-	public TradeBillAction(WechatClientConfig config) {
+	protected TradeBillAction(WechatClientConfig config) {
 		super(config);
 	}
 
@@ -22,11 +22,6 @@ public abstract class TradeBillAction<R, S> extends AbstractTradeAction<R, S> {
 	@Override
 	public boolean hasSigned() {
 		return false;
-	}
-
-	@Override
-	public boolean isStreaming() {
-		return true;
 	}
 
 }

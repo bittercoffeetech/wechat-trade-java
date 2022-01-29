@@ -1,6 +1,5 @@
 package tech.bittercoffee.wechat.api.trade;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 
@@ -57,11 +56,11 @@ public final class WechatTradeClient {
 		this.config = new WechatClientConfig(appId, mchId, mchKey, apiCert);
 	}
 
-	public TradeCreateNotify onCreateNotifier(InputStream xml) throws WechatApiException, IOException {
+	public TradeCreateNotify onCreateNotifier(InputStream xml) throws WechatApiException {
 		return new TradeCreateNotification(config).execute(xml);
 	}
 
-	public TradeRefundNotify onRefundNotifier(InputStream xml) throws WechatApiException, IOException {
+	public TradeRefundNotify onRefundNotifier(InputStream xml) throws WechatApiException {
 		return new TradeRefundNotification(config).execute(xml);
 	}
 

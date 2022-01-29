@@ -40,7 +40,7 @@ public abstract class TradeSheetRequest implements Serializable {
 	@JacksonXmlCData
 	protected TarTypeEnum tarType;
 
-	public TradeSheetRequest(LocalDate billDate, TarTypeEnum tarType) {
+	protected TradeSheetRequest(LocalDate billDate, TarTypeEnum tarType) {
 		this.billDate = billDate;
 		this.tarType = tarType;
 	}
