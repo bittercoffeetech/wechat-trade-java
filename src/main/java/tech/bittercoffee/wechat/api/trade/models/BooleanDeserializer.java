@@ -17,8 +17,6 @@ public class BooleanDeserializer extends StdScalarDeserializer<Boolean> {
 	public Boolean deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 		if ("Y".equals(p.getValueAsString())) {
 			return Boolean.TRUE;
-		} else if ("N".equals(p.getValueAsString())) {
-			return Boolean.FALSE;
 		} else {
 			return Boolean.FALSE;
 		}
